@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%230066cc'%3E📝%3C/text%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== BASE RESET ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: linear-gradient(135deg, #e6f2ff 0%, #ffffff 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        /* ===== PANEL CARD ===== */
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 100, 200, 0.15);
+            border: 1px solid #cce6ff;
+        }
+
+        /* ===== HEADINGS ===== */
+        h1, h2 {
+            margin-bottom: 16px;
+            color: #0066cc;
+            font-family: 'Comic Neue', cursive;
+        }
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            background: linear-gradient(to right, #0066cc, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 10px 0;
+            border-bottom: 2px solid #cce6ff;
+            margin-bottom: 24px;
+        }
+        h2 {
+            font-size: 20px;
+            border-bottom: 2px solid #cce6ff;
+            padding-bottom: 8px;
+            color: #0066cc;
+        }
+
+        /* ===== BUTTONS ===== */
+        button {
+            background: #0099cc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: 'Comic Neue', cursive;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 5px rgba(0, 100, 200, 0.2);
+        }
+        button:hover { background: #0077b3; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,100,200,0.3); }
+        button:active { transform: translateY(0); }
+        button.secondary { background: #6c757d; }
+        button.secondary:hover { background: #5a6268; }
+        button.danger { background: #dc3545; }
+        button.danger:hover { background: #c82333; }
+
+        /* ===== OPTION BUTTONS ===== */
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: #f8f9ff;
+            font-family: 'Comic Neue', cursive;
+            font-size: 15px;
+            font-weight: 500;
+            border: 2px solid #cce6ff;
+            border-radius: 8px;
+            transition: all 0.2s;
+            color: #000;
+            box-shadow: none;
+            transform: none;
+            margin-right: 0;
+        }
+        .option-btn:hover:not(:disabled) { background: #e6f2ff; border-color: #99d6ff; transform: none; }
+        .option-btn.correct  { background: #d4edda; border-color: #28a745; color: #155724; }
+        .option-btn.incorrect { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .option-btn.selected  { background: #e6f2ff; border-color: #0099cc; }
+        .option-btn.revealed  { background: #fff3cd; border-color: #ffc107; } /* previously answered, revisiting */
+        .option-btn:disabled  { cursor: not-allowed; opacity: 0.8; }
+
+        /* ===== STATS BAR ===== */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #cce6ff;
+        }
+        .stat-card { background: white; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #cce6ff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .stat-value { font-size: 24px; font-weight: 700; color: #0066cc; }
+        .stat-label { font-size: 12px; color: #6c757d; text-transform: uppercase; }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-bar { width: 100%; height: 12px; background: #e9ecef; border-radius: 6px; overflow: hidden; margin-bottom: 20px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #0099cc, #00ccff); transition: width 0.3s ease; }
+
+        /* ===== QUESTION ===== */
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            padding: 15px;
+            background: #f8f9ff;
+            border-left: 4px solid #0099cc;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* ===== FEEDBACK & SOLUTION ===== */
+        .feedback {
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .feedback.correct   { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .feedback.incorrect { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        .solution {
+            background: #f0f8ff;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+            border-left: 4px solid #0099cc;
+            border: 1px solid #cce6ff;
+            white-space: pre-line;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .solution-label { font-weight: 600; color: #0066cc; margin-bottom: 8px; font-family: 'Comic Neue', cursive; }
+
+        /* ===== EXAM HEADER ===== */
+        .exam-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #cce6ff;
+        }
+        .timer { background: #f0f8ff; padding: 10px 15px; border-radius: 8px; font-weight: bold; color: #0066cc; border: 1px solid #cce6ff; }
+        .question-counter { font-weight: bold; color: #0066cc; }
+
+        /* ===== NAVIGATION (fixed bottom-right) ===== */
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        .navigation button {
+            background: #0099cc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: 'Comic Neue', cursive;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin: 0;
+        }
+        .navigation button:hover { background: #0077b3; transform: translateY(-2px); }
+        .navigation button:disabled { background: #aaa; cursor: not-allowed; transform: none; }
+
+        /* ===== RESULTS ===== */
+        .final-stats { text-align: center; padding: 40px 20px; }
+        .final-score { font-size: 64px; font-weight: 700; color: #0066cc; margin: 20px 0; }
+        .score-label { font-size: 18px; color: #6c757d; margin-bottom: 30px; }
+
+        /* ===== LOADING / ERROR ===== */
+        .loader {
+            text-align: center;
+            padding: 60px 20px;
+            color: #0066cc;
+        }
+        .loader .spinner {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #cce6ff;
+            border-top-color: #0099cc;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-box {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 24px;
+            color: #721c24;
+            text-align: center;
+        }
+        .error-box h3 { margin-bottom: 10px; color: #721c24; }
+        .error-box code { background: #fff; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+
+        /* ===== UTILITY ===== */
+        .hidden { display: none !important; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .panel { padding: 16px; }
+            h1 { font-size: 22px; }
+            .question-text { font-size: 16px; }
+            .final-score { font-size: 48px; }
+            .navigation { bottom: 12px; right: 12px; gap: 8px; }
+            .navigation button { padding: 10px 18px; font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ===== LOADING PANEL ===== -->
+    <div id="loadingPanel" class="panel">
+        <div class="loader">
+            <div class="spinner"></div>
+            <p id="loadingMsg">Loading quiz...</p>
+        </div>
+    </div>
+
+    <!-- ===== ERROR PANEL ===== -->
+    <div id="errorPanel" class="panel hidden">
+        <div class="error-box">
+            <h3>⚠️ Could not load quiz</h3>
+            <p id="errorMsg">Unknown error.</p>
+            <p style="margin-top:12px;font-size:13px;">Make sure your JSON file is publicly accessible on GitHub and the URL param is correct.<br>
+            Example: <code>?quiz=quiz1</code> → fetches <code>.../quizzes/quiz1.json</code></p>
+        </div>
+    </div>
+
+    <!-- ===== QUIZ PANEL ===== -->
+    <div id="quizPanel" class="panel hidden">
+        <h1 id="quizTitle">Quiz</h1>
+        <div class="exam-header">
+            <div class="timer">⏱ <span id="timeDisplay">00:00</span></div>
+            <div class="question-counter">Question <span id="questionCounter">1</span> of <span id="totalQuestions">0</span></div>
+        </div>
+        <div class="stats">
+            <div class="stat-card"><div class="stat-value" id="statCorrect">0</div><div class="stat-label">Correct</div></div>
+            <div class="stat-card"><div class="stat-value" id="statWrong">0</div><div class="stat-label">Wrong</div></div>
+            <div class="stat-card"><div class="stat-value" id="statSkipped">0</div><div class="stat-label">Unanswered</div></div>
+            <div class="stat-card"><div class="stat-value" id="statAccuracy">—</div><div class="stat-label">Accuracy</div></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div id="quizContent"></div>
+    </div>
+
+    <!-- ===== RESULTS PANEL ===== -->
+    <div id="resultsPanel" class="panel hidden">
+        <div class="final-stats">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">—</div>
+            <div class="score-label" id="scoreLabel"></div>
+            <div class="stats" style="max-width:500px;margin:0 auto 30px;">
+                <div class="stat-card"><div class="stat-value" id="finalCorrect">0</div><div class="stat-label">Correct</div></div>
+                <div class="stat-card"><div class="stat-value" id="finalWrong">0</div><div class="stat-label">Wrong</div></div>
+                <div class="stat-card"><div class="stat-value" id="finalSkipped">0</div><div class="stat-label">Unanswered</div></div>
+                <div class="stat-card"><div class="stat-value" id="finalTotal">0</div><div class="stat-label">Total</div></div>
+            </div>
+            <button onclick="reattemptQuiz()">🔁 Reattempt Quiz</button>
+        </div>
+    </div>
+
+</div><!-- .container -->
+
+<!-- Fixed Prev / Next Navigation -->
+<div class="navigation" id="navButtons" style="display:none;">
+    <button id="prevBtn" onclick="goToPrev()" disabled>← Prev</button>
+    <button id="nextBtn" onclick="goToNext()">Next →</button>
+</div>
+
+<script>
+    /* ============================================================
+       CONFIGURATION
+       ============================================================
+       Set BASE_URL to the raw GitHub folder that contains your JSON files.
+       Each quiz JSON file must follow the schema:
+       {
+         "title": "My Quiz",
+         "questions": [
+           {
+             "question": "Question text",
+             "options": ["Option A", "Option B", "Option C", "Option D"],
+             "answer": "Option A",          // must match one of the options exactly
+             "solution": "Explanation..."   // optional
+           }
+         ]
+       }
+    ============================================================ */
+    const BASE_URL = 'https://raw.githubusercontent.com/username/repo/main/quizzes';
+
+    /* ============================================================
+       STATE
+    ============================================================ */
+    let allQuestions  = [];   // Array of question objects from JSON
+    let userAnswers   = [];   // userAnswers[i] = { selectedOption, isCorrect } | null
+    let currentIndex  = 0;    // Which question the user is viewing (0-based)
+    let timerInterval = null;
+    let timeElapsed   = 0;
+    let quizTitle     = 'Quiz';
+
+    /* ============================================================
+       INIT — runs on page load
+    ============================================================ */
+    window.addEventListener('DOMContentLoaded', () => {
+        const params   = new URLSearchParams(window.location.search);
+        const quizName = params.get('quiz');
+
+        if (!quizName) {
+            showError(
+                'No quiz specified.',
+                'Add <code>?quiz=your_quiz_name</code> to the URL.<br>Example: <code>' +
+                location.origin + location.pathname + '?quiz=quiz1</code>'
+            );
+            return;
+        }
+
+        const url = `${BASE_URL}/${quizName}.json`;
+        loadQuiz(url, quizName);
+    });
+
+    /* ============================================================
+       FETCH QUIZ JSON FROM GITHUB
+    ============================================================ */
+    async function loadQuiz(url, quizName) {
+        setLoading(`Loading "${quizName}"...`);
+        try {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`HTTP ${res.status} — file not found or not accessible.`);
+
+            const data = await res.json();
+
+            // Validate structure
+            if (!Array.isArray(data.questions) || data.questions.length === 0) {
+                throw new Error('JSON is missing a "questions" array or it is empty.');
+            }
+
+            // Sanitise questions — ensure required fields exist
+            allQuestions = data.questions.map((q, i) => ({
+                question : q.question  || `[Question ${i + 1} missing text]`,
+                options  : Array.isArray(q.options) ? q.options : [],
+                answer   : q.answer   || '',
+                solution : q.solution || ''
+            }));
+
+            quizTitle = data.title || quizName;
+            initQuiz();
+
+        } catch (err) {
+            showError(`Failed to load <code>${url}</code>`, err.message);
+        }
+    }
+
+    /* ============================================================
+       QUIZ INITIALISATION
+    ============================================================ */
+    function initQuiz() {
+        // Blank answer slate — null means unanswered
+        userAnswers  = new Array(allQuestions.length).fill(null);
+        currentIndex = 0;
+
+        // UI
+        document.getElementById('quizTitle').textContent = quizTitle;
+        document.title = quizTitle;
+        document.getElementById('totalQuestions').textContent = allQuestions.length;
+
+        hidePanel('loadingPanel');
+        showPanel('quizPanel');
+        document.getElementById('navButtons').style.display = 'flex';
+
+        startTimer();
+        renderQuestion();
+    }
+
+    /* ============================================================
+       RENDER QUESTION (called on every navigation)
+    ============================================================ */
+    function renderQuestion() {
+        const q       = allQuestions[currentIndex];
+        const saved   = userAnswers[currentIndex]; // null | { selectedOption, isCorrect }
+        const content = document.getElementById('quizContent');
+
+        // Header counters
+        document.getElementById('questionCounter').textContent = currentIndex + 1;
+        updateStats();
+        updateProgress();
+
+        // Build HTML
+        let html = `<div class="question-text">${escapeHtml(q.question).replace(/\n/g, '<br>')}</div>`;
+
+        // Options
+        q.options.forEach((opt, idx) => {
+            const letter   = String.fromCharCode(65 + idx); // A, B, C, D …
+            const isAnswer = opt === q.answer;
+            let   cls      = 'option-btn';
+            let   disabled = '';
+
+            if (saved !== null) {
+                // Question was previously answered — show result, lock buttons
+                disabled = 'disabled';
+                if (isAnswer)            cls += ' correct';
+                if (opt === saved.selectedOption && !saved.isCorrect) cls += ' incorrect selected';
+                else if (opt === saved.selectedOption && saved.isCorrect) cls += ' selected';
+            }
+
+            html += `
+                <button class="${cls}" ${disabled}
+                    onclick="selectAnswer(${idx})">
+                    ${letter}) ${escapeHtml(opt)}
+                </button>`;
+        });
+
+        // If already answered, re-show feedback + solution
+        if (saved !== null) {
+            html += buildFeedbackHtml(saved, q);
+        }
+
+        content.innerHTML = html;
+
+        // Prev / Next button states
+        document.getElementById('prevBtn').disabled = (currentIndex === 0);
+        document.getElementById('nextBtn').textContent =
+            currentIndex === allQuestions.length - 1 ? 'Finish ✓' : 'Next →';
+    }
+
+    /* ============================================================
+       ANSWER SELECTION
+    ============================================================ */
+    function selectAnswer(optionIdx) {
+        // Ignore if already answered
+        if (userAnswers[currentIndex] !== null) return;
+
+        const q        = allQuestions[currentIndex];
+        const selected = q.options[optionIdx];
+        const isCorrect = selected === q.answer;
+
+        // Persist answer
+        userAnswers[currentIndex] = { selectedOption: selected, isCorrect };
+
+        // Re-render to show result (locked state)
+        renderQuestion();
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    function goToNext() {
+        if (currentIndex < allQuestions.length - 1) {
+            currentIndex++;
+            renderQuestion();
+        } else {
+            // Last question — show results
+            showResults();
+        }
+    }
+
+    function goToPrev() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderQuestion();
+        }
+    }
+
+    /* Keyboard: A/B/C/D to answer, Left/Right to navigate */
+    document.addEventListener('keydown', (e) => {
+        if (!document.getElementById('quizPanel').classList.contains('hidden')) {
+            const key = e.key.toUpperCase();
+            if (['A', 'B', 'C', 'D'].includes(key)) {
+                const idx = key.charCodeAt(0) - 65;
+                const q   = allQuestions[currentIndex];
+                if (idx < q.options.length) selectAnswer(idx);
+            }
+            if (e.key === 'ArrowRight') goToNext();
+            if (e.key === 'ArrowLeft')  goToPrev();
+        }
+    });
+
+    /* ============================================================
+       RESULTS
+    ============================================================ */
+    function showResults() {
+        stopTimer();
+
+        const correct = userAnswers.filter(a => a && a.isCorrect).length;
+        const wrong   = userAnswers.filter(a => a && !a.isCorrect).length;
+        const skipped = userAnswers.filter(a => a === null).length;
+        const total   = allQuestions.length;
+        const pct     = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+        document.getElementById('finalScore').textContent   = pct + '%';
+        document.getElementById('scoreLabel').textContent   =
+            `${correct} correct out of ${total} questions`;
+        document.getElementById('finalCorrect').textContent = correct;
+        document.getElementById('finalWrong').textContent   = wrong;
+        document.getElementById('finalSkipped').textContent = skipped;
+        document.getElementById('finalTotal').textContent   = total;
+
+        hidePanel('quizPanel');
+        document.getElementById('navButtons').style.display = 'none';
+        showPanel('resultsPanel');
+    }
+
+    /* ============================================================
+       REATTEMPT — full reset, same questions
+    ============================================================ */
+    function reattemptQuiz() {
+        hidePanel('resultsPanel');
+        initQuiz();
+    }
+
+    /* ============================================================
+       STATS UPDATE
+    ============================================================ */
+    function updateStats() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        const correct  = userAnswers.filter(a => a && a.isCorrect).length;
+        const wrong    = userAnswers.filter(a => a && !a.isCorrect).length;
+        const skipped  = allQuestions.length - answered;
+        const accuracy = answered > 0 ? Math.round((correct / answered) * 100) + '%' : '—';
+
+        document.getElementById('statCorrect').textContent  = correct;
+        document.getElementById('statWrong').textContent    = wrong;
+        document.getElementById('statSkipped').textContent  = skipped;
+        document.getElementById('statAccuracy').textContent = accuracy;
+    }
+
+    function updateProgress() {
+        const answered  = userAnswers.filter(a => a !== null).length;
+        const pct       = allQuestions.length > 0 ? (answered / allQuestions.length) * 100 : 0;
+        document.getElementById('progressFill').style.width = pct + '%';
+    }
+
+    /* ============================================================
+       TIMER
+    ============================================================ */
+    function startTimer() {
+        timeElapsed = 0;
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            timeElapsed++;
+            const m = Math.floor(timeElapsed / 60).toString().padStart(2, '0');
+            const s = (timeElapsed % 60).toString().padStart(2, '0');
+            document.getElementById('timeDisplay').textContent = `${m}:${s}`;
+        }, 1000);
+    }
+    function stopTimer() { clearInterval(timerInterval); }
+
+    /* ============================================================
+       HELPERS
+    ============================================================ */
+
+    /** Build feedback + solution HTML string for a saved answer */
+    function buildFeedbackHtml(saved, q) {
+        let html = `<div class="feedback ${saved.isCorrect ? 'correct' : 'incorrect'}">
+            ${saved.isCorrect ? '✓ Correct!' : `✗ Incorrect — Correct answer: <strong>${escapeHtml(q.answer)}</strong>`}
+        </div>`;
+        if (q.solution) {
+            html += `<div class="solution">
+                <div class="solution-label">Explanation:</div>
+                <div>${escapeHtml(q.solution)}</div>
+            </div>`;
+        }
+        return html;
+    }
+
+    function showError(title, detail) {
+        document.getElementById('errorMsg').innerHTML = `<strong>${title}</strong><br>${detail}`;
+        hidePanel('loadingPanel');
+        showPanel('errorPanel');
+    }
+
+    function setLoading(msg) {
+        document.getElementById('loadingMsg').textContent = msg;
+        showPanel('loadingPanel');
+    }
+
+    function showPanel(id) { document.getElementById(id).classList.remove('hidden'); }
+    function hidePanel(id) { document.getElementById(id).classList.add('hidden'); }
+
+    /** Safely escape HTML entities to prevent XSS */
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+</script>
+</body>
+</html>
