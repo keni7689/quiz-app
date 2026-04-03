@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
-    <link rel="icon" type="image/x-icon"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%230066cc'%3E📝%3C/text%3E%3C/svg%3E">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%230066cc'%3E📝%3C/text%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* ===== BASE RESET ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Comic Neue', cursive;
@@ -43,13 +37,11 @@
         }
 
         /* ===== HEADINGS ===== */
-        h1,
-        h2 {
+        h1, h2 {
             margin-bottom: 16px;
             color: #0066cc;
             font-family: 'Comic Neue', cursive;
         }
-
         h1 {
             font-size: 28px;
             text-align: center;
@@ -60,7 +52,6 @@
             border-bottom: 2px solid #cce6ff;
             margin-bottom: 24px;
         }
-
         h2 {
             font-size: 20px;
             border-bottom: 2px solid #cce6ff;
@@ -84,32 +75,12 @@
             margin-bottom: 8px;
             box-shadow: 0 2px 5px rgba(0, 100, 200, 0.2);
         }
-
-        button:hover {
-            background: #0077b3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 100, 200, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        button.secondary {
-            background: #6c757d;
-        }
-
-        button.secondary:hover {
-            background: #5a6268;
-        }
-
-        button.danger {
-            background: #dc3545;
-        }
-
-        button.danger:hover {
-            background: #c82333;
-        }
+        button:hover { background: #0077b3; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,100,200,0.3); }
+        button:active { transform: translateY(0); }
+        button.secondary { background: #6c757d; }
+        button.secondary:hover { background: #5a6268; }
+        button.danger { background: #dc3545; }
+        button.danger:hover { background: #c82333; }
 
         /* ===== OPTION BUTTONS ===== */
         .option-btn {
@@ -129,40 +100,12 @@
             transform: none;
             margin-right: 0;
         }
-
-        .option-btn:hover:not(:disabled) {
-            background: #e6f2ff;
-            border-color: #99d6ff;
-            transform: none;
-        }
-
-        .option-btn.correct {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-
-        .option-btn.incorrect {
-            background: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
-        }
-
-        .option-btn.selected {
-            background: #e6f2ff;
-            border-color: #0099cc;
-        }
-
-        .option-btn.revealed {
-            background: #fff3cd;
-            border-color: #ffc107;
-        }
-
-        /* previously answered, revisiting */
-        .option-btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.8;
-        }
+        .option-btn:hover:not(:disabled) { background: #e6f2ff; border-color: #99d6ff; transform: none; }
+        .option-btn.correct  { background: #d4edda; border-color: #28a745; color: #155724; }
+        .option-btn.incorrect { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .option-btn.selected  { background: #e6f2ff; border-color: #0099cc; }
+        .option-btn.revealed  { background: #fff3cd; border-color: #ffc107; } /* previously answered, revisiting */
+        .option-btn:disabled  { cursor: not-allowed; opacity: 0.8; }
 
         /* ===== STATS BAR ===== */
         .stats {
@@ -175,44 +118,13 @@
             border-radius: 8px;
             border: 1px solid #cce6ff;
         }
-
-        .stat-card {
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid #cce6ff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #0066cc;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #6c757d;
-            text-transform: uppercase;
-        }
+        .stat-card { background: white; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #cce6ff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .stat-value { font-size: 24px; font-weight: 700; color: #0066cc; }
+        .stat-label { font-size: 12px; color: #6c757d; text-transform: uppercase; }
 
         /* ===== PROGRESS BAR ===== */
-        .progress-bar {
-            width: 100%;
-            height: 12px;
-            background: #e9ecef;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #0099cc, #00ccff);
-            transition: width 0.3s ease;
-        }
+        .progress-bar { width: 100%; height: 12px; background: #e9ecef; border-radius: 6px; overflow: hidden; margin-bottom: 20px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #0099cc, #00ccff); transition: width 0.3s ease; }
 
         /* ===== QUESTION ===== */
         .question-text {
@@ -234,18 +146,8 @@
             margin-bottom: 20px;
             font-weight: 600;
         }
-
-        .feedback.correct {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .feedback.incorrect {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+        .feedback.correct   { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .feedback.incorrect { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
         .solution {
             background: #f0f8ff;
@@ -259,13 +161,7 @@
             font-size: 14px;
             line-height: 1.5;
         }
-
-        .solution-label {
-            font-weight: 600;
-            color: #0066cc;
-            margin-bottom: 8px;
-            font-family: 'Comic Neue', cursive;
-        }
+        .solution-label { font-weight: 600; color: #0066cc; margin-bottom: 8px; font-family: 'Comic Neue', cursive; }
 
         /* ===== EXAM HEADER ===== */
         .exam-header {
@@ -276,20 +172,8 @@
             padding-bottom: 10px;
             border-bottom: 2px solid #cce6ff;
         }
-
-        .timer {
-            background: #f0f8ff;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            color: #0066cc;
-            border: 1px solid #cce6ff;
-        }
-
-        .question-counter {
-            font-weight: bold;
-            color: #0066cc;
-        }
+        .timer { background: #f0f8ff; padding: 10px 15px; border-radius: 8px; font-weight: bold; color: #0066cc; border: 1px solid #cce6ff; }
+        .question-counter { font-weight: bold; color: #0066cc; }
 
         /* ===== NAVIGATION (fixed bottom-right) ===== */
         .navigation {
@@ -300,7 +184,6 @@
             gap: 10px;
             z-index: 1000;
         }
-
         .navigation button {
             background: #0099cc;
             color: white;
@@ -312,39 +195,16 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             margin: 0;
         }
-
-        .navigation button:hover {
-            background: #0077b3;
-            transform: translateY(-2px);
-        }
-
-        .navigation button:disabled {
-            background: #aaa;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .navigation button:hover { background: #0077b3; transform: translateY(-2px); }
+        .navigation button:disabled { background: #aaa; cursor: not-allowed; transform: none; }
 
         /* ===== RESULTS ===== */
-        .final-stats {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .final-score {
-            font-size: 64px;
-            font-weight: 700;
-            color: #0066cc;
-            margin: 20px 0;
-        }
-
-        .score-label {
-            font-size: 18px;
-            color: #6c757d;
-            margin-bottom: 30px;
-        }
+        .final-stats { text-align: center; padding: 40px 20px; }
+        .final-score { font-size: 64px; font-weight: 700; color: #0066cc; margin: 20px 0; }
+        .score-label { font-size: 18px; color: #6c757d; margin-bottom: 30px; }
 
         /* ===== LOADING / ERROR ===== */
         .loader {
@@ -352,7 +212,6 @@
             padding: 60px 20px;
             color: #0066cc;
         }
-
         .loader .spinner {
             width: 48px;
             height: 48px;
@@ -362,12 +221,7 @@
             animation: spin 0.8s linear infinite;
             margin: 0 auto 20px;
         }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .error-box {
             background: #f8d7da;
@@ -377,18 +231,8 @@
             color: #721c24;
             text-align: center;
         }
-
-        .error-box h3 {
-            margin-bottom: 10px;
-            color: #721c24;
-        }
-
-        .error-box code {
-            background: #fff;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 13px;
-        }
+        .error-box h3 { margin-bottom: 10px; color: #721c24; }
+        .error-box code { background: #fff; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
 
         /* ===== LINK CHECKER DASHBOARD ===== */
         .dashboard-panel h1 {
@@ -401,11 +245,9 @@
             border-bottom: 2px solid #cce6ff;
             margin-bottom: 16px;
         }
-
         .dash-search-row {
             margin-bottom: 14px;
         }
-
         .dash-search-row input {
             width: 100%;
             padding: 12px 16px;
@@ -416,17 +258,12 @@
             outline: none;
             transition: border 0.2s;
         }
-
-        .dash-search-row input:focus {
-            border-color: #0099cc;
-        }
-
+        .dash-search-row input:focus { border-color: #0099cc; }
         .checker-hint {
             font-size: 13px;
             color: #6c757d;
             margin-bottom: 14px;
         }
-
         .checker-hint code {
             background: #f0f8ff;
             padding: 2px 6px;
@@ -434,7 +271,6 @@
             font-size: 12px;
             border: 1px solid #cce6ff;
         }
-
         .link-item {
             display: flex;
             align-items: center;
@@ -446,26 +282,10 @@
             gap: 12px;
             flex-wrap: wrap;
         }
-
-        .link-item.checking {
-            background: #f8f9ff;
-            border-color: #cce6ff;
-        }
-
-        .link-item.ok {
-            background: #d4edda;
-            border-color: #28a745;
-        }
-
-        .link-item.fail {
-            background: #f8d7da;
-            border-color: #dc3545;
-        }
-
-        .link-item.dash-hidden {
-            display: none !important;
-        }
-
+        .link-item.checking { background: #f8f9ff; border-color: #cce6ff; }
+        .link-item.ok       { background: #d4edda; border-color: #28a745; }
+        .link-item.fail     { background: #f8d7da; border-color: #dc3545; }
+        .link-item.dash-hidden { display: none !important; }
         .link-item-left {
             display: flex;
             align-items: center;
@@ -473,55 +293,36 @@
             flex: 1;
             min-width: 0;
         }
-
-        .link-status-icon {
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
+        .link-status-icon { font-size: 20px; flex-shrink: 0; }
         .link-name {
             font-weight: 700;
             color: #0066cc;
             font-size: 15px;
         }
-
         .link-name mark {
             background: #fff3cd;
             color: #0066cc;
             border-radius: 3px;
             padding: 0 2px;
         }
-
         .link-url {
             font-size: 12px;
             color: #6c757d;
             word-break: break-all;
         }
-
         .link-item-actions {
             display: flex;
             gap: 8px;
             flex-shrink: 0;
         }
-
         .link-item-actions button {
             padding: 7px 14px;
             font-size: 13px;
             margin: 0;
         }
-
-        .copy-btn {
-            background: #0099cc;
-        }
-
-        .open-btn {
-            background: #28a745;
-        }
-
-        .open-btn:hover {
-            background: #218838 !important;
-        }
-
+        .copy-btn { background: #0099cc; }
+        .open-btn { background: #28a745; }
+        .open-btn:hover { background: #218838 !important; }
         .checker-summary {
             display: flex;
             gap: 12px;
@@ -533,307 +334,218 @@
             border: 1px solid #cce6ff;
             font-size: 14px;
         }
-
-        .sum-ok {
-            color: #28a745;
-            font-weight: 700;
-        }
-
-        .sum-fail {
-            color: #dc3545;
-            font-weight: 700;
-        }
-
-        .sum-total {
-            color: #0066cc;
-            font-weight: 700;
-        }
-
-        .copy-all-btn {
-            background: #0066cc;
-            margin-bottom: 0;
-        }
-
-        .copy-all-btn:hover {
-            background: #0055aa !important;
-        }
-
+        .sum-ok   { color: #28a745; font-weight: 700; }
+        .sum-fail { color: #dc3545; font-weight: 700; }
+        .sum-total{ color: #0066cc; font-weight: 700; }
+        .copy-all-btn { background: #0066cc; margin-bottom: 0; }
+        .copy-all-btn:hover { background: #0055aa !important; }
         .loader-inline {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 20px;
-            color: #0066cc;
-            font-size: 15px;
+            display: flex; align-items: center; gap: 12px;
+            padding: 20px; color: #0066cc; font-size: 15px;
         }
-
         .spinner-sm {
-            width: 24px;
-            height: 24px;
-            flex-shrink: 0;
-            border: 3px solid #cce6ff;
-            border-top-color: #0099cc;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            width: 24px; height: 24px; flex-shrink: 0;
+            border: 3px solid #cce6ff; border-top-color: #0099cc;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
         }
-
         .no-results-msg {
-            text-align: center;
-            padding: 20px;
-            color: #6c757d;
-            font-size: 15px;
+            text-align: center; padding: 20px; color: #6c757d; font-size: 15px;
         }
 
         /* ===== UTILITY ===== */
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
-            body {
-                padding: 12px;
-            }
-
-            .panel {
-                padding: 16px;
-            }
-
-            h1 {
-                font-size: 22px;
-            }
-
-            .question-text {
-                font-size: 16px;
-            }
-
-            .final-score {
-                font-size: 48px;
-            }
-
-            .navigation {
-                bottom: 12px;
-                right: 12px;
-                gap: 8px;
-            }
-
-            .navigation button {
-                padding: 10px 18px;
-                font-size: 14px;
-            }
+            body { padding: 12px; }
+            .panel { padding: 16px; }
+            h1 { font-size: 22px; }
+            .question-text { font-size: 16px; }
+            .final-score { font-size: 48px; }
+            .navigation { bottom: 12px; right: 12px; gap: 8px; }
+            .navigation button { padding: 10px 18px; font-size: 14px; }
         }
     </style>
 </head>
-
 <body>
-    <div class="container">
+<div class="container">
 
-        <!-- ===== LINK CHECKER DASHBOARD ===== -->
-        <div id="dashboardPanel" class="panel dashboard-panel hidden">
-            <h1>🔗 Quiz Link Dashboard</h1>
-            <p class="checker-hint">
-                Base: <code id="baseUrlDisplay"></code> &nbsp;·&nbsp;
-                All available quizzes are listed below. Use the search box to filter.
-            </p>
+    <!-- ===== LINK CHECKER DASHBOARD ===== -->
+    <div id="dashboardPanel" class="panel dashboard-panel hidden">
+        <h1>🔗 Quiz Link Dashboard</h1>
+        <p class="checker-hint">
+            Base: <code id="baseUrlDisplay"></code> &nbsp;·&nbsp;
+            All available quizzes are listed below. Use the search box to filter.
+        </p>
 
-            <!-- Search bar always visible -->
-            <div class="dash-search-row">
-                <input type="text" id="dashSearchInput"
-                    placeholder="🔍  Search quiz name (partial match works — e.g. 'quiz' finds 'historyquiz3')"
-                    oninput="filterDashboard()" />
-            </div>
-
-            <!-- Summary bar -->
-            <div class="checker-summary hidden" id="checkerSummary"></div>
-
-            <!-- Action buttons -->
-            <div id="dashActions" class="hidden" style="margin-bottom:14px; display:flex; gap:8px; flex-wrap:wrap;">
-                <button class="copy-all-btn" onclick="copyAllWorkingLinks()">📋 Copy All Working Links</button>
-            </div>
-
-            <!-- All links list (auto-loaded) -->
-            <div id="linkList">
-                <div class="loader-inline">
-                    <div class="spinner-sm"></div>
-                    <span id="dashLoadMsg">Loading available quizzes from GitHub…</span>
-                </div>
-            </div>
+        <!-- Search bar always visible -->
+        <div class="dash-search-row">
+            <input type="text" id="dashSearchInput" placeholder="🔍  Search quiz name (partial match works — e.g. 'quiz' finds 'historyquiz3')" oninput="filterDashboard()" />
         </div>
 
-        <!-- ===== LOADING PANEL ===== -->
-        <div id="loadingPanel" class="panel">
-            <div class="loader">
-                <div class="spinner"></div>
-                <p id="loadingMsg">Loading quiz...</p>
-            </div>
+        <!-- Summary bar -->
+        <div class="checker-summary hidden" id="checkerSummary"></div>
+
+        <!-- Action buttons -->
+        <div id="dashActions" class="hidden" style="margin-bottom:14px; display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="copy-all-btn" onclick="copyAllWorkingLinks()">📋 Copy All Working Links</button>
         </div>
 
-        <!-- ===== ERROR PANEL ===== -->
-        <div id="errorPanel" class="panel hidden">
-            <div class="error-box">
-                <h3>⚠️ Could not load quiz</h3>
-                <p id="errorMsg">Unknown error.</p>
-                <p style="margin-top:12px;font-size:13px;">Make sure your JSON file is publicly accessible on GitHub and
-                    the URL param is correct.<br>
-                    Example: <code>?quiz=quiz1</code> → fetches <code>.../quizzes/quiz1.json</code></p>
-                <button style="margin-top:16px;" onclick="showDashboard()">🔗 Open Link Checker</button>
+        <!-- All links list (auto-loaded) -->
+        <div id="linkList">
+            <div class="loader-inline">
+                <div class="spinner-sm"></div>
+                <span id="dashLoadMsg">Loading available quizzes from GitHub…</span>
             </div>
         </div>
-
-        <!-- ===== QUIZ PANEL ===== -->
-        <div id="quizPanel" class="panel hidden">
-            <h1 id="quizTitle">Quiz</h1>
-            <div class="exam-header">
-                <div class="timer">⏱ <span id="timeDisplay">00:00</span></div>
-                <div class="question-counter">Question <span id="questionCounter">1</span> of <span
-                        id="totalQuestions">0</span></div>
-            </div>
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-value" id="statCorrect">0</div>
-                    <div class="stat-label">Correct</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="statWrong">0</div>
-                    <div class="stat-label">Wrong</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="statSkipped">0</div>
-                    <div class="stat-label">Unanswered</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="statAccuracy">—</div>
-                    <div class="stat-label">Accuracy</div>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width:0%"></div>
-            </div>
-            <div id="quizContent"></div>
-        </div>
-
-        <!-- ===== RESULTS PANEL ===== -->
-        <div id="resultsPanel" class="panel hidden">
-            <div class="final-stats">
-                <h2>🎉 Quiz Complete!</h2>
-                <div class="final-score" id="finalScore">—</div>
-                <div class="score-label" id="scoreLabel"></div>
-                <div class="stats" style="max-width:500px;margin:0 auto 30px;">
-                    <div class="stat-card">
-                        <div class="stat-value" id="finalCorrect">0</div>
-                        <div class="stat-label">Correct</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="finalWrong">0</div>
-                        <div class="stat-label">Wrong</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="finalSkipped">0</div>
-                        <div class="stat-label">Unanswered</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="finalTotal">0</div>
-                        <div class="stat-label">Total</div>
-                    </div>
-                </div>
-                <button onclick="reattemptQuiz()">🔁 Reattempt Quiz</button>
-            </div>
-        </div>
-
-    </div><!-- .container -->
-
-    <!-- Fixed Prev / Next Navigation -->
-    <div class="navigation" id="navButtons" style="display:none;">
-        <button id="prevBtn" onclick="goToPrev()" disabled>← Prev</button>
-        <button id="nextBtn" onclick="goToNext()">Next →</button>
     </div>
 
-    <script>
-        /* ============================================================
-           CONFIGURATION
-           ============================================================
-           Set BASE_URL to the raw GitHub folder that contains your JSON files.
-           Each quiz JSON file must follow the schema:
+    <!-- ===== LOADING PANEL ===== -->
+    <div id="loadingPanel" class="panel">
+        <div class="loader">
+            <div class="spinner"></div>
+            <p id="loadingMsg">Loading quiz...</p>
+        </div>
+    </div>
+
+    <!-- ===== ERROR PANEL ===== -->
+    <div id="errorPanel" class="panel hidden">
+        <div class="error-box">
+            <h3>⚠️ Could not load quiz</h3>
+            <p id="errorMsg">Unknown error.</p>
+            <p style="margin-top:12px;font-size:13px;">Make sure your JSON file is publicly accessible on GitHub and the URL param is correct.<br>
+            Example: <code>?quiz=quiz1</code> → fetches <code>.../quizzes/quiz1.json</code></p>
+            <button style="margin-top:16px;" onclick="showDashboard()">🔗 Open Link Checker</button>
+        </div>
+    </div>
+
+    <!-- ===== QUIZ PANEL ===== -->
+    <div id="quizPanel" class="panel hidden">
+        <h1 id="quizTitle">Quiz</h1>
+        <div class="exam-header">
+            <div class="timer">⏱ <span id="timeDisplay">00:00</span></div>
+            <div class="question-counter">Question <span id="questionCounter">1</span> of <span id="totalQuestions">0</span></div>
+        </div>
+        <div class="stats">
+            <div class="stat-card"><div class="stat-value" id="statCorrect">0</div><div class="stat-label">Correct</div></div>
+            <div class="stat-card"><div class="stat-value" id="statWrong">0</div><div class="stat-label">Wrong</div></div>
+            <div class="stat-card"><div class="stat-value" id="statSkipped">0</div><div class="stat-label">Unanswered</div></div>
+            <div class="stat-card"><div class="stat-value" id="statAccuracy">—</div><div class="stat-label">Accuracy</div></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div id="quizContent"></div>
+    </div>
+
+    <!-- ===== RESULTS PANEL ===== -->
+    <div id="resultsPanel" class="panel hidden">
+        <div class="final-stats">
+            <h2>🎉 Quiz Complete!</h2>
+            <div class="final-score" id="finalScore">—</div>
+            <div class="score-label" id="scoreLabel"></div>
+            <div class="stats" style="max-width:500px;margin:0 auto 30px;">
+                <div class="stat-card"><div class="stat-value" id="finalCorrect">0</div><div class="stat-label">Correct</div></div>
+                <div class="stat-card"><div class="stat-value" id="finalWrong">0</div><div class="stat-label">Wrong</div></div>
+                <div class="stat-card"><div class="stat-value" id="finalSkipped">0</div><div class="stat-label">Unanswered</div></div>
+                <div class="stat-card"><div class="stat-value" id="finalTotal">0</div><div class="stat-label">Total</div></div>
+            </div>
+            <button onclick="reattemptQuiz()">🔁 Reattempt Quiz</button>
+        </div>
+    </div>
+
+</div><!-- .container -->
+
+<!-- Fixed Prev / Next Navigation -->
+<div class="navigation" id="navButtons" style="display:none;">
+    <button id="prevBtn" onclick="goToPrev()" disabled>← Prev</button>
+    <button id="nextBtn" onclick="goToNext()">Next →</button>
+</div>
+
+<script>
+    /* ============================================================
+       CONFIGURATION
+       ============================================================
+       Set BASE_URL to the raw GitHub folder that contains your JSON files.
+       Each quiz JSON file must follow the schema:
+       {
+         "title": "My Quiz",
+         "questions": [
            {
-             "title": "My Quiz",
-             "questions": [
-               {
-                 "question": "Question text",
-                 "options": ["Option A", "Option B", "Option C", "Option D"],
-                 "answer": "Option A",          // must match one of the options exactly
-                 "solution": "Explanation..."   // optional
-               }
-             ]
+             "question": "Question text",
+             "options": ["Option A", "Option B", "Option C", "Option D"],
+             "answer": "Option A",          // must match one of the options exactly
+             "solution": "Explanation..."   // optional
            }
-        ============================================================ */
-        const BASE_URL = 'https://raw.githubusercontent.com/keni7689/quiz-data/main/quizzes';
+         ]
+       }
+    ============================================================ */
+    const BASE_URL = 'https://raw.githubusercontent.com/keni7689/quiz-data/main/quizzes';
 
-        /* ============================================================
-           STATE
-        ============================================================ */
-        let allQuestions = [];   // Array of question objects from JSON
-        let userAnswers = [];   // userAnswers[i] = { selectedOption, isCorrect } | null
-        let currentIndex = 0;    // Which question the user is viewing (0-based)
-        let timerInterval = null;
-        let timeElapsed = 0;
-        let quizTitle = 'Quiz';
+    /* ============================================================
+       STATE
+    ============================================================ */
+    let allQuestions  = [];   // Array of question objects from JSON
+    let userAnswers   = [];   // userAnswers[i] = { selectedOption, isCorrect } | null
+    let currentIndex  = 0;    // Which question the user is viewing (0-based)
+    let timerInterval = null;
+    let timeElapsed   = 0;
+    let quizTitle     = 'Quiz';
 
-        /* ============================================================
-           LINK CHECKER DASHBOARD
-           — Auto-loads all files from GitHub repo on open
-           — Partial/fuzzy search filters live, highlights matches
-        ============================================================ */
+    /* ============================================================
+       LINK CHECKER DASHBOARD
+       — Auto-loads all files from GitHub repo on open
+       — Partial/fuzzy search filters live, highlights matches
+    ============================================================ */
 
-        // Derive GitHub API URL from BASE_URL
-        // BASE_URL = https://raw.githubusercontent.com/USER/REPO/BRANCH/PATH
-        const GITHUB_API_URL = (() => {
-            const m = BASE_URL.match(/https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.*)/);
-            if (!m) return null;
-            const [, user, repo, branch, path] = m;
-            return `https://api.github.com/repos/${user}/${repo}/contents/${path}?ref=${branch}`;
-        })();
+    // Derive GitHub API URL from BASE_URL
+    // BASE_URL = https://raw.githubusercontent.com/USER/REPO/BRANCH/PATH
+    const GITHUB_API_URL = (() => {
+        const m = BASE_URL.match(/https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.*)/);
+        if (!m) return null;
+        const [, user, repo, branch, path] = m;
+        return `https://api.github.com/repos/${user}/${repo}/contents/${path}?ref=${branch}`;
+    })();
 
-        let _allLinks = [];       // { name, rawUrl, quizUrl, ok }
-        let _dashLoaded = false;
+    let _allLinks = [];       // { name, rawUrl, quizUrl, ok }
+    let _dashLoaded = false;
 
-        function showDashboard() {
-            document.getElementById('baseUrlDisplay').textContent = BASE_URL;
-            showPanel('dashboardPanel');
-            if (!_dashLoaded) loadDashboardLinks();
+    function showDashboard() {
+        document.getElementById('baseUrlDisplay').textContent = BASE_URL;
+        showPanel('dashboardPanel');
+        if (!_dashLoaded) loadDashboardLinks();
+    }
+
+    function hideDashboard() {
+        hidePanel('dashboardPanel');
+    }
+
+    async function loadDashboardLinks() {
+        _dashLoaded = true;
+        const listEl = document.getElementById('linkList');
+        listEl.innerHTML = `<div class="loader-inline"><div class="spinner-sm"></div><span id="dashLoadMsg">Fetching quiz list from GitHub…</span></div>`;
+
+        const pageBase = location.origin + location.pathname;
+        let names = [];
+
+        try {
+            if (!GITHUB_API_URL) throw new Error('Cannot parse GitHub API URL from BASE_URL.');
+            const res = await fetch(GITHUB_API_URL);
+            if (!res.ok) throw new Error(`GitHub API returned ${res.status}`);
+            const files = await res.json();
+            names = files
+                .filter(f => f.type === 'file' && f.name.endsWith('.json'))
+                .map(f => f.name.replace(/\.json$/, ''));
+        } catch (e) {
+            listEl.innerHTML = `<div class="no-results-msg">⚠️ Could not auto-load list from GitHub.<br><small>${e.message}</small></div>`;
+            return;
         }
 
-        function hideDashboard() {
-            hidePanel('dashboardPanel');
+        if (names.length === 0) {
+            listEl.innerHTML = `<div class="no-results-msg">No .json quiz files found in the repo folder.</div>`;
+            return;
         }
 
-        async function loadDashboardLinks() {
-            _dashLoaded = true;
-            const listEl = document.getElementById('linkList');
-            listEl.innerHTML = `<div class="loader-inline"><div class="spinner-sm"></div><span id="dashLoadMsg">Fetching quiz list from GitHub…</span></div>`;
-
-            const pageBase = location.origin + location.pathname;
-            let names = [];
-
-            try {
-                if (!GITHUB_API_URL) throw new Error('Cannot parse GitHub API URL from BASE_URL.');
-                const res = await fetch(GITHUB_API_URL);
-                if (!res.ok) throw new Error(`GitHub API returned ${res.status}`);
-                const files = await res.json();
-                names = files
-                    .filter(f => f.type === 'file' && f.name.endsWith('.json'))
-                    .map(f => f.name.replace(/\.json$/, ''));
-            } catch (e) {
-                listEl.innerHTML = `<div class="no-results-msg">⚠️ Could not auto-load list from GitHub.<br><small>${e.message}</small></div>`;
-                return;
-            }
-
-            if (names.length === 0) {
-                listEl.innerHTML = `<div class="no-results-msg">No .json quiz files found in the repo folder.</div>`;
-                return;
-            }
-
-            // Show skeleton while checking
-            listEl.innerHTML = names.map(name => `
+        // Show skeleton while checking
+        listEl.innerHTML = names.map(name => `
             <div class="link-item checking" id="dli-${CSS.escape(name)}" data-name="${escapeHtml(name)}">
                 <div class="link-item-left">
                     <span class="link-status-icon">⏳</span>
@@ -844,49 +556,53 @@
                 </div>
             </div>`).join('');
 
-            // Check all in parallel
-            const results = await Promise.all(names.map(async name => {
-                const rawUrl = `${BASE_URL}/${name}.json`;
-                const quizUrl = `${pageBase}?quiz=${encodeURIComponent(name)}`;
-                let ok = false;
-                try {
-                    const r = await fetch(rawUrl, { method: 'HEAD' });
-                    ok = r.ok;
-                    if (!ok) { const r2 = await fetch(rawUrl); ok = r2.ok; }
-                } catch { ok = false; }
-                return { name, rawUrl, quizUrl, ok };
-            }));
+        // Check all in parallel
+        const results = await Promise.all(names.map(async name => {
+            const rawUrl  = `${BASE_URL}/${name}.json`;
+            const quizUrl = `${pageBase}?quiz=${encodeURIComponent(name)}`;
+            let ok = false;
+            try {
+                const r = await fetch(rawUrl, { method: 'HEAD' });
+                ok = r.ok;
+                if (!ok) { const r2 = await fetch(rawUrl); ok = r2.ok; }
+            } catch { ok = false; }
+            return { name, rawUrl, quizUrl, ok };
+        }));
 
-            _allLinks = results;
+        _allLinks = results;
 
-            let okCount = 0, failCount = 0;
-            results.forEach(({ name, rawUrl, quizUrl, ok }) => {
-                const el = document.getElementById(`dli-${CSS.escape(name)}`);
-                if (!el) return;
-                if (ok) okCount++; else failCount++;
-                el.className = `link-item ${ok ? 'ok' : 'fail'}`;
-                el.dataset.name = name;
-                el.innerHTML = buildLinkItemInner(name, name, rawUrl, quizUrl, ok);
-            });
+        let okCount = 0, failCount = 0;
+        results.forEach(({ name, rawUrl, quizUrl, ok }) => {
+            const el = document.getElementById(`dli-${CSS.escape(name)}`);
+            if (!el) return;
+            if (ok) okCount++; else failCount++;
+            el.className = `link-item ${ok ? 'ok' : 'fail'}`;
+            el.dataset.name = name;
+            el.innerHTML = buildLinkItemInner(name, name, rawUrl, quizUrl, ok);
+        });
 
-            // Summary
-            const sumEl = document.getElementById('checkerSummary');
-            sumEl.innerHTML = `
+        // Summary
+        const sumEl = document.getElementById('checkerSummary');
+        sumEl.innerHTML = `
             <span class="sum-total">Total: ${results.length}</span> &nbsp;|&nbsp;
             <span class="sum-ok">✅ Working: ${okCount}</span> &nbsp;|&nbsp;
             <span class="sum-fail">❌ Not found: ${failCount}</span>`;
-            sumEl.classList.remove('hidden');
-            document.getElementById('dashActions').classList.remove('hidden');
+        sumEl.classList.remove('hidden');
+        document.getElementById('dashActions').classList.remove('hidden');
 
-            window._workingLinks = results.filter(r => r.ok).map(r => r.quizUrl);
-        }
+        window._workingLinks = results.filter(r => r.ok).map(r => r.quizUrl);
+    }
 
-        /** Builds the inner HTML for a link item, highlighting the query in the name */
-        function buildLinkItemInner(name, highlightQuery, rawUrl, quizUrl, ok) {
-            const displayName = highlightQuery
-                ? highlightMatch(escapeHtml(name), escapeHtml(highlightQuery))
-                : escapeHtml(name);
-            return `
+    /** Builds the inner HTML for a link item, highlighting all matching tokens in the name */
+    function buildLinkItemInner(name, tokensOrQuery, rawUrl, quizUrl, ok) {
+        const tokens = Array.isArray(tokensOrQuery) ? tokensOrQuery : (tokensOrQuery ? [tokensOrQuery] : []);
+        let displayName = escapeHtml(name);
+        tokens.forEach(t => {
+            if (!t) return;
+            const escaped = t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            displayName = displayName.replace(new RegExp(escaped, 'gi'), m => `<mark>${m}</mark>`);
+        });
+        return `
             <div class="link-item-left">
                 <span class="link-status-icon">${ok ? '✅' : '❌'}</span>
                 <div>
@@ -900,361 +616,357 @@
                        <button class="open-btn" onclick="window.open('${quizUrl}','_blank')">▶ Open</button>`
                     : `<span style="font-size:13px;color:#721c24;">Not found</span>`}
             </div>`;
-        }
+    }
 
-        /** Highlights all occurrences of query inside text (case-insensitive) */
-        function highlightMatch(text, query) {
-            if (!query) return text;
-            const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            return text.replace(new RegExp(escaped, 'gi'), m => `<mark>${m}</mark>`);
-        }
+    /** Highlights all occurrences of query inside text (case-insensitive) */
 
-        /** Live filter — shows any link whose name contains ANY part of the query */
-        function filterDashboard() {
-            const query = document.getElementById('dashSearchInput').value.trim().toLowerCase();
-            const pageBase = location.origin + location.pathname;
-            let visibleCount = 0;
+    /**
+     * Live filter — matches ANY token from the search against the full quiz name.
+     * e.g. "quiz" matches "historyquiz3", "mathquiz1", "quiz2" — partial anywhere in name.
+     * Multiple words like "history quiz" = show if name contains "history" OR "quiz".
+     */
+    function filterDashboard() {
+        const raw    = document.getElementById('dashSearchInput').value.trim().toLowerCase();
+        const tokens = raw.split(/\s+/).filter(Boolean);
+        let visibleCount = 0;
 
-            _allLinks.forEach(({ name, rawUrl, quizUrl, ok }) => {
-                const el = document.getElementById(`dli-${CSS.escape(name)}`);
-                if (!el) return;
-                const matches = !query || name.toLowerCase().includes(query);
-                if (matches) {
-                    el.classList.remove('dash-hidden');
-                    // Re-render to update highlight
-                    el.innerHTML = buildLinkItemInner(name, query, rawUrl, quizUrl, ok);
-                    visibleCount++;
-                } else {
-                    el.classList.add('dash-hidden');
-                }
-            });
-
-            // Show "no results" if nothing matches
-            let noRes = document.getElementById('dashNoResults');
-            if (visibleCount === 0 && query) {
-                if (!noRes) {
-                    noRes = document.createElement('div');
-                    noRes.id = 'dashNoResults';
-                    noRes.className = 'no-results-msg';
-                    document.getElementById('linkList').appendChild(noRes);
-                }
-                noRes.textContent = `No quizzes found matching "${query}"`;
-            } else if (noRes) {
-                noRes.remove();
+        _allLinks.forEach(({ name, rawUrl, quizUrl, ok }) => {
+            const el = document.getElementById(`dli-${CSS.escape(name)}`);
+            if (!el) return;
+            const nameLower = name.toLowerCase();
+            const matches   = tokens.length === 0 || tokens.some(t => nameLower.includes(t));
+            if (matches) {
+                el.classList.remove('dash-hidden');
+                el.innerHTML = buildLinkItemInner(name, tokens, rawUrl, quizUrl, ok);
+                visibleCount++;
+            } else {
+                el.classList.add('dash-hidden');
             }
-
-            // Update copy-all to only include currently visible working links
-            window._workingLinks = _allLinks
-                .filter(r => r.ok && (!query || r.name.toLowerCase().includes(query)))
-                .map(r => r.quizUrl);
-        }
-
-        function copyText(text, btn) {
-            navigator.clipboard.writeText(text).then(() => {
-                const orig = btn.textContent;
-                btn.textContent = '✓ Copied!';
-                setTimeout(() => btn.textContent = orig, 1800);
-            });
-        }
-
-        function copyAllWorkingLinks() {
-            const links = window._workingLinks || [];
-            if (links.length === 0) { alert('No working links to copy.'); return; }
-            navigator.clipboard.writeText(links.join('\n')).then(() => {
-                const btn = document.querySelector('.copy-all-btn');
-                const orig = btn.textContent;
-                btn.textContent = `✓ Copied ${links.length} link(s)!`;
-                setTimeout(() => btn.textContent = orig, 2000);
-            });
-        }
-
-        /* ============================================================
-           INIT — runs on page load
-        ============================================================ */
-        window.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const quizName = params.get('quiz');
-
-            if (!quizName) {
-                document.getElementById('baseUrlDisplay').textContent = BASE_URL;
-                hidePanel('loadingPanel');
-                showPanel('dashboardPanel');
-                return;
-            }
-
-            const url = `${BASE_URL}/${quizName}.json`;
-            loadQuiz(url, quizName);
         });
 
-        /* ============================================================
-           FETCH QUIZ JSON FROM GITHUB
-        ============================================================ */
-        async function loadQuiz(url, quizName) {
-            setLoading(`Loading "${quizName}"...`);
-            try {
-                const res = await fetch(url);
-                if (!res.ok) throw new Error(`HTTP ${res.status} — file not found or not accessible.`);
-
-                const data = await res.json();
-
-                // Validate structure
-                if (!Array.isArray(data.questions) || data.questions.length === 0) {
-                    throw new Error('JSON is missing a "questions" array or it is empty.');
-                }
-
-                // Sanitise questions — ensure required fields exist
-                allQuestions = data.questions.map((q, i) => ({
-                    question: q.question || `[Question ${i + 1} missing text]`,
-                    options: Array.isArray(q.options) ? q.options : [],
-                    answer: q.answer || '',
-                    solution: q.solution || ''
-                }));
-
-                quizTitle = data.title || quizName;
-                initQuiz();
-
-            } catch (err) {
-                showError(`Failed to load <code>${url}</code>`, err.message);
+        let noRes = document.getElementById('dashNoResults');
+        if (visibleCount === 0 && tokens.length > 0) {
+            if (!noRes) {
+                noRes = document.createElement('div');
+                noRes.id = 'dashNoResults';
+                noRes.className = 'no-results-msg';
+                document.getElementById('linkList').appendChild(noRes);
             }
+            noRes.textContent = `No quizzes found matching "${raw}"`;
+        } else if (noRes) {
+            noRes.remove();
         }
 
-        /* ============================================================
-           QUIZ INITIALISATION
-        ============================================================ */
-        function initQuiz() {
-            // Blank answer slate — null means unanswered
-            userAnswers = new Array(allQuestions.length).fill(null);
-            currentIndex = 0;
+        window._workingLinks = _allLinks
+            .filter(r => r.ok && (tokens.length === 0 || tokens.some(t => r.name.toLowerCase().includes(t))))
+            .map(r => r.quizUrl);
+    }
 
-            // UI
-            document.getElementById('quizTitle').textContent = quizTitle;
-            document.title = quizTitle;
-            document.getElementById('totalQuestions').textContent = allQuestions.length;
+    function copyText(text, btn) {
+        navigator.clipboard.writeText(text).then(() => {
+            const orig = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            setTimeout(() => btn.textContent = orig, 1800);
+        });
+    }
 
+    function copyAllWorkingLinks() {
+        const links = window._workingLinks || [];
+        if (links.length === 0) { alert('No working links to copy.'); return; }
+        navigator.clipboard.writeText(links.join('\n')).then(() => {
+            const btn = document.querySelector('.copy-all-btn');
+            const orig = btn.textContent;
+            btn.textContent = `✓ Copied ${links.length} link(s)!`;
+            setTimeout(() => btn.textContent = orig, 2000);
+        });
+    }
+
+    /* ============================================================
+       INIT — runs on page load
+    ============================================================ */
+    window.addEventListener('DOMContentLoaded', () => {
+        const params   = new URLSearchParams(window.location.search);
+        const quizName = params.get('quiz');
+
+        if (!quizName) {
+            document.getElementById('baseUrlDisplay').textContent = BASE_URL;
             hidePanel('loadingPanel');
-            showPanel('quizPanel');
-            document.getElementById('navButtons').style.display = 'flex';
-
-            startTimer();
-            renderQuestion();
+            showPanel('dashboardPanel');
+            return;
         }
 
-        /* ============================================================
-           RENDER QUESTION (called on every navigation)
-        ============================================================ */
-        function renderQuestion() {
-            const q = allQuestions[currentIndex];
-            const saved = userAnswers[currentIndex]; // null | { selectedOption, isCorrect }
-            const content = document.getElementById('quizContent');
+        const url = `${BASE_URL}/${quizName}.json`;
+        loadQuiz(url, quizName);
+    });
 
-            // Header counters
-            document.getElementById('questionCounter').textContent = currentIndex + 1;
-            updateStats();
-            updateProgress();
+    /* ============================================================
+       FETCH QUIZ JSON FROM GITHUB
+    ============================================================ */
+    async function loadQuiz(url, quizName) {
+        setLoading(`Loading "${quizName}"...`);
+        try {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`HTTP ${res.status} — file not found or not accessible.`);
 
-            // Build HTML
-            let html = `<div class="question-text">${escapeHtml(q.question).replace(/\n/g, '<br>')}</div>`;
+            const data = await res.json();
 
-            // Options
-            q.options.forEach((opt, idx) => {
-                const letter = String.fromCharCode(65 + idx); // A, B, C, D …
-                const isAnswer = opt === q.answer;
-                let cls = 'option-btn';
-                let disabled = '';
+            // Validate structure
+            if (!Array.isArray(data.questions) || data.questions.length === 0) {
+                throw new Error('JSON is missing a "questions" array or it is empty.');
+            }
 
-                if (saved !== null) {
-                    // Question was previously answered — show result, lock buttons
-                    disabled = 'disabled';
-                    if (isAnswer) cls += ' correct';
-                    if (opt === saved.selectedOption && !saved.isCorrect) cls += ' incorrect selected';
-                    else if (opt === saved.selectedOption && saved.isCorrect) cls += ' selected';
-                }
+            // Sanitise questions — ensure required fields exist
+            allQuestions = data.questions.map((q, i) => ({
+                question : q.question  || `[Question ${i + 1} missing text]`,
+                options  : Array.isArray(q.options) ? q.options : [],
+                answer   : q.answer   || '',
+                solution : q.solution || ''
+            }));
 
-                html += `
+            quizTitle = data.title || quizName;
+            initQuiz();
+
+        } catch (err) {
+            showError(`Failed to load <code>${url}</code>`, err.message);
+        }
+    }
+
+    /* ============================================================
+       QUIZ INITIALISATION
+    ============================================================ */
+    function initQuiz() {
+        // Blank answer slate — null means unanswered
+        userAnswers  = new Array(allQuestions.length).fill(null);
+        currentIndex = 0;
+
+        // UI
+        document.getElementById('quizTitle').textContent = quizTitle;
+        document.title = quizTitle;
+        document.getElementById('totalQuestions').textContent = allQuestions.length;
+
+        hidePanel('loadingPanel');
+        showPanel('quizPanel');
+        document.getElementById('navButtons').style.display = 'flex';
+
+        startTimer();
+        renderQuestion();
+    }
+
+    /* ============================================================
+       RENDER QUESTION (called on every navigation)
+    ============================================================ */
+    function renderQuestion() {
+        const q       = allQuestions[currentIndex];
+        const saved   = userAnswers[currentIndex]; // null | { selectedOption, isCorrect }
+        const content = document.getElementById('quizContent');
+
+        // Header counters
+        document.getElementById('questionCounter').textContent = currentIndex + 1;
+        updateStats();
+        updateProgress();
+
+        // Build HTML
+        let html = `<div class="question-text">${escapeHtml(q.question).replace(/\n/g, '<br>')}</div>`;
+
+        // Options
+        q.options.forEach((opt, idx) => {
+            const letter   = String.fromCharCode(65 + idx); // A, B, C, D …
+            const isAnswer = opt === q.answer;
+            let   cls      = 'option-btn';
+            let   disabled = '';
+
+            if (saved !== null) {
+                // Question was previously answered — show result, lock buttons
+                disabled = 'disabled';
+                if (isAnswer)            cls += ' correct';
+                if (opt === saved.selectedOption && !saved.isCorrect) cls += ' incorrect selected';
+                else if (opt === saved.selectedOption && saved.isCorrect) cls += ' selected';
+            }
+
+            html += `
                 <button class="${cls}" ${disabled}
                     onclick="selectAnswer(${idx})">
                     ${letter}) ${escapeHtml(opt)}
                 </button>`;
-            });
-
-            // If already answered, re-show feedback + solution
-            if (saved !== null) {
-                html += buildFeedbackHtml(saved, q);
-            }
-
-            content.innerHTML = html;
-
-            // Prev / Next button states
-            document.getElementById('prevBtn').disabled = (currentIndex === 0);
-            document.getElementById('nextBtn').textContent =
-                currentIndex === allQuestions.length - 1 ? 'Finish ✓' : 'Next →';
-        }
-
-        /* ============================================================
-           ANSWER SELECTION
-        ============================================================ */
-        function selectAnswer(optionIdx) {
-            // Ignore if already answered
-            if (userAnswers[currentIndex] !== null) return;
-
-            const q = allQuestions[currentIndex];
-            const selected = q.options[optionIdx];
-            const isCorrect = selected === q.answer;
-
-            // Persist answer
-            userAnswers[currentIndex] = { selectedOption: selected, isCorrect };
-
-            // Re-render to show result (locked state)
-            renderQuestion();
-        }
-
-        /* ============================================================
-           NAVIGATION
-        ============================================================ */
-        function goToNext() {
-            if (currentIndex < allQuestions.length - 1) {
-                currentIndex++;
-                renderQuestion();
-            } else {
-                // Last question — show results
-                showResults();
-            }
-        }
-
-        function goToPrev() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                renderQuestion();
-            }
-        }
-
-        /* Keyboard: A/B/C/D to answer, Left/Right to navigate */
-        document.addEventListener('keydown', (e) => {
-            if (!document.getElementById('quizPanel').classList.contains('hidden')) {
-                const key = e.key.toUpperCase();
-                if (['A', 'B', 'C', 'D'].includes(key)) {
-                    const idx = key.charCodeAt(0) - 65;
-                    const q = allQuestions[currentIndex];
-                    if (idx < q.options.length) selectAnswer(idx);
-                }
-                if (e.key === 'ArrowRight') goToNext();
-                if (e.key === 'ArrowLeft') goToPrev();
-            }
         });
 
-        /* ============================================================
-           RESULTS
-        ============================================================ */
-        function showResults() {
-            stopTimer();
-
-            const correct = userAnswers.filter(a => a && a.isCorrect).length;
-            const wrong = userAnswers.filter(a => a && !a.isCorrect).length;
-            const skipped = userAnswers.filter(a => a === null).length;
-            const total = allQuestions.length;
-            const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
-
-            document.getElementById('finalScore').textContent = pct + '%';
-            document.getElementById('scoreLabel').textContent =
-                `${correct} correct out of ${total} questions`;
-            document.getElementById('finalCorrect').textContent = correct;
-            document.getElementById('finalWrong').textContent = wrong;
-            document.getElementById('finalSkipped').textContent = skipped;
-            document.getElementById('finalTotal').textContent = total;
-
-            hidePanel('quizPanel');
-            document.getElementById('navButtons').style.display = 'none';
-            showPanel('resultsPanel');
+        // If already answered, re-show feedback + solution
+        if (saved !== null) {
+            html += buildFeedbackHtml(saved, q);
         }
 
-        /* ============================================================
-           REATTEMPT — full reset, same questions
-        ============================================================ */
-        function reattemptQuiz() {
-            hidePanel('resultsPanel');
-            initQuiz();
+        content.innerHTML = html;
+
+        // Prev / Next button states
+        document.getElementById('prevBtn').disabled = (currentIndex === 0);
+        document.getElementById('nextBtn').textContent =
+            currentIndex === allQuestions.length - 1 ? 'Finish ✓' : 'Next →';
+    }
+
+    /* ============================================================
+       ANSWER SELECTION
+    ============================================================ */
+    function selectAnswer(optionIdx) {
+        // Ignore if already answered
+        if (userAnswers[currentIndex] !== null) return;
+
+        const q        = allQuestions[currentIndex];
+        const selected = q.options[optionIdx];
+        const isCorrect = selected === q.answer;
+
+        // Persist answer
+        userAnswers[currentIndex] = { selectedOption: selected, isCorrect };
+
+        // Re-render to show result (locked state)
+        renderQuestion();
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    function goToNext() {
+        if (currentIndex < allQuestions.length - 1) {
+            currentIndex++;
+            renderQuestion();
+        } else {
+            // Last question — show results
+            showResults();
         }
+    }
 
-        /* ============================================================
-           STATS UPDATE
-        ============================================================ */
-        function updateStats() {
-            const answered = userAnswers.filter(a => a !== null).length;
-            const correct = userAnswers.filter(a => a && a.isCorrect).length;
-            const wrong = userAnswers.filter(a => a && !a.isCorrect).length;
-            const skipped = allQuestions.length - answered;
-            const accuracy = answered > 0 ? Math.round((correct / answered) * 100) + '%' : '—';
-
-            document.getElementById('statCorrect').textContent = correct;
-            document.getElementById('statWrong').textContent = wrong;
-            document.getElementById('statSkipped').textContent = skipped;
-            document.getElementById('statAccuracy').textContent = accuracy;
+    function goToPrev() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderQuestion();
         }
+    }
 
-        function updateProgress() {
-            const answered = userAnswers.filter(a => a !== null).length;
-            const pct = allQuestions.length > 0 ? (answered / allQuestions.length) * 100 : 0;
-            document.getElementById('progressFill').style.width = pct + '%';
+    /* Keyboard: A/B/C/D to answer, Left/Right to navigate */
+    document.addEventListener('keydown', (e) => {
+        if (!document.getElementById('quizPanel').classList.contains('hidden')) {
+            const key = e.key.toUpperCase();
+            if (['A', 'B', 'C', 'D'].includes(key)) {
+                const idx = key.charCodeAt(0) - 65;
+                const q   = allQuestions[currentIndex];
+                if (idx < q.options.length) selectAnswer(idx);
+            }
+            if (e.key === 'ArrowRight') goToNext();
+            if (e.key === 'ArrowLeft')  goToPrev();
         }
+    });
 
-        /* ============================================================
-           TIMER
-        ============================================================ */
-        function startTimer() {
-            timeElapsed = 0;
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                timeElapsed++;
-                const m = Math.floor(timeElapsed / 60).toString().padStart(2, '0');
-                const s = (timeElapsed % 60).toString().padStart(2, '0');
-                document.getElementById('timeDisplay').textContent = `${m}:${s}`;
-            }, 1000);
-        }
-        function stopTimer() { clearInterval(timerInterval); }
+    /* ============================================================
+       RESULTS
+    ============================================================ */
+    function showResults() {
+        stopTimer();
 
-        /* ============================================================
-           HELPERS
-        ============================================================ */
+        const correct = userAnswers.filter(a => a && a.isCorrect).length;
+        const wrong   = userAnswers.filter(a => a && !a.isCorrect).length;
+        const skipped = userAnswers.filter(a => a === null).length;
+        const total   = allQuestions.length;
+        const pct     = total > 0 ? Math.round((correct / total) * 100) : 0;
 
-        /** Build feedback + solution HTML string for a saved answer */
-        function buildFeedbackHtml(saved, q) {
-            let html = `<div class="feedback ${saved.isCorrect ? 'correct' : 'incorrect'}">
+        document.getElementById('finalScore').textContent   = pct + '%';
+        document.getElementById('scoreLabel').textContent   =
+            `${correct} correct out of ${total} questions`;
+        document.getElementById('finalCorrect').textContent = correct;
+        document.getElementById('finalWrong').textContent   = wrong;
+        document.getElementById('finalSkipped').textContent = skipped;
+        document.getElementById('finalTotal').textContent   = total;
+
+        hidePanel('quizPanel');
+        document.getElementById('navButtons').style.display = 'none';
+        showPanel('resultsPanel');
+    }
+
+    /* ============================================================
+       REATTEMPT — full reset, same questions
+    ============================================================ */
+    function reattemptQuiz() {
+        hidePanel('resultsPanel');
+        initQuiz();
+    }
+
+    /* ============================================================
+       STATS UPDATE
+    ============================================================ */
+    function updateStats() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        const correct  = userAnswers.filter(a => a && a.isCorrect).length;
+        const wrong    = userAnswers.filter(a => a && !a.isCorrect).length;
+        const skipped  = allQuestions.length - answered;
+        const accuracy = answered > 0 ? Math.round((correct / answered) * 100) + '%' : '—';
+
+        document.getElementById('statCorrect').textContent  = correct;
+        document.getElementById('statWrong').textContent    = wrong;
+        document.getElementById('statSkipped').textContent  = skipped;
+        document.getElementById('statAccuracy').textContent = accuracy;
+    }
+
+    function updateProgress() {
+        const answered  = userAnswers.filter(a => a !== null).length;
+        const pct       = allQuestions.length > 0 ? (answered / allQuestions.length) * 100 : 0;
+        document.getElementById('progressFill').style.width = pct + '%';
+    }
+
+    /* ============================================================
+       TIMER
+    ============================================================ */
+    function startTimer() {
+        timeElapsed = 0;
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            timeElapsed++;
+            const m = Math.floor(timeElapsed / 60).toString().padStart(2, '0');
+            const s = (timeElapsed % 60).toString().padStart(2, '0');
+            document.getElementById('timeDisplay').textContent = `${m}:${s}`;
+        }, 1000);
+    }
+    function stopTimer() { clearInterval(timerInterval); }
+
+    /* ============================================================
+       HELPERS
+    ============================================================ */
+
+    /** Build feedback + solution HTML string for a saved answer */
+    function buildFeedbackHtml(saved, q) {
+        let html = `<div class="feedback ${saved.isCorrect ? 'correct' : 'incorrect'}">
             ${saved.isCorrect ? '✓ Correct!' : `✗ Incorrect — Correct answer: <strong>${escapeHtml(q.answer)}</strong>`}
         </div>`;
-            if (q.solution) {
-                html += `<div class="solution">
+        if (q.solution) {
+            html += `<div class="solution">
                 <div class="solution-label">Explanation:</div>
                 <div>${escapeHtml(q.solution)}</div>
             </div>`;
-            }
-            return html;
         }
+        return html;
+    }
 
-        function showError(title, detail) {
-            document.getElementById('errorMsg').innerHTML = `<strong>${title}</strong><br>${detail}`;
-            hidePanel('loadingPanel');
-            showPanel('errorPanel');
-        }
+    function showError(title, detail) {
+        document.getElementById('errorMsg').innerHTML = `<strong>${title}</strong><br>${detail}`;
+        hidePanel('loadingPanel');
+        showPanel('errorPanel');
+    }
 
-        function setLoading(msg) {
-            document.getElementById('loadingMsg').textContent = msg;
-            showPanel('loadingPanel');
-        }
+    function setLoading(msg) {
+        document.getElementById('loadingMsg').textContent = msg;
+        showPanel('loadingPanel');
+    }
 
-        function showPanel(id) { document.getElementById(id).classList.remove('hidden'); }
-        function hidePanel(id) { document.getElementById(id).classList.add('hidden'); }
+    function showPanel(id) { document.getElementById(id).classList.remove('hidden'); }
+    function hidePanel(id) { document.getElementById(id).classList.add('hidden'); }
 
-        /** Safely escape HTML entities to prevent XSS */
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-    </script>
+    /** Safely escape HTML entities to prevent XSS */
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+</script>
 </body>
-
 </html>
