@@ -234,6 +234,115 @@
         .error-box h3 { margin-bottom: 10px; color: #721c24; }
         .error-box code { background: #fff; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
 
+        /* ===== LINK CHECKER DASHBOARD ===== */
+        .dashboard-panel h1 {
+            font-size: 26px;
+            text-align: center;
+            background: linear-gradient(to right, #0066cc, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 10px 0;
+            border-bottom: 2px solid #cce6ff;
+            margin-bottom: 20px;
+        }
+        .checker-input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .checker-input-row input[type="text"] {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 2px solid #cce6ff;
+            border-radius: 8px;
+            font-family: 'Comic Neue', cursive;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .checker-input-row input[type="text"]:focus { border-color: #0099cc; }
+        .checker-hint {
+            font-size: 13px;
+            color: #6c757d;
+            margin-bottom: 14px;
+        }
+        .checker-hint code {
+            background: #f0f8ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            border: 1px solid #cce6ff;
+        }
+        #linkResults {
+            margin-top: 20px;
+        }
+        .link-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .link-item.checking { background: #f8f9ff; border-color: #cce6ff; }
+        .link-item.ok       { background: #d4edda; border-color: #28a745; }
+        .link-item.fail     { background: #f8d7da; border-color: #dc3545; }
+        .link-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+        .link-status-icon { font-size: 20px; flex-shrink: 0; }
+        .link-name {
+            font-weight: 700;
+            color: #0066cc;
+            font-size: 15px;
+        }
+        .link-url {
+            font-size: 12px;
+            color: #6c757d;
+            word-break: break-all;
+        }
+        .link-item-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .link-item-actions button {
+            padding: 7px 14px;
+            font-size: 13px;
+            margin: 0;
+        }
+        .copy-btn { background: #0099cc; }
+        .open-btn { background: #28a745; }
+        .open-btn:hover { background: #218838 !important; }
+        .checker-summary {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            background: #f0f8ff;
+            border-radius: 8px;
+            border: 1px solid #cce6ff;
+            font-size: 14px;
+        }
+        .sum-ok   { color: #28a745; font-weight: 700; }
+        .sum-fail { color: #dc3545; font-weight: 700; }
+        .sum-total{ color: #0066cc; font-weight: 700; }
+        .copy-all-btn {
+            background: #0066cc;
+            margin-bottom: 0;
+        }
+        .copy-all-btn:hover { background: #0055aa !important; }
+
         /* ===== UTILITY ===== */
         .hidden { display: none !important; }
 
@@ -252,6 +361,29 @@
 <body>
 <div class="container">
 
+    <!-- ===== LINK CHECKER DASHBOARD ===== -->
+    <div id="dashboardPanel" class="panel dashboard-panel hidden">
+        <h1>🔗 Quiz Link Checker</h1>
+        <p class="checker-hint">
+            Enter quiz names (one per line or comma-separated) to check which links are working.<br>
+            Base URL: <code id="baseUrlDisplay"></code>
+        </p>
+        <div class="checker-input-row">
+            <input type="text" id="quizNamesInput" placeholder="e.g. quiz1, quiz2, chapter1, chapter2 ..." />
+            <button onclick="runLinkCheck()">🔍 Check Links</button>
+            <button class="secondary" onclick="hideDashboard()">✕ Close</button>
+        </div>
+
+        <div id="linkResults" class="hidden">
+            <div class="checker-summary" id="checkerSummary"></div>
+            <div style="margin-bottom:14px; display:flex; gap:8px; flex-wrap:wrap;">
+                <button class="copy-all-btn" onclick="copyAllWorkingLinks()">📋 Copy All Working Links</button>
+                <button class="secondary" onclick="clearResults()">🗑 Clear</button>
+            </div>
+            <div id="linkList"></div>
+        </div>
+    </div>
+
     <!-- ===== LOADING PANEL ===== -->
     <div id="loadingPanel" class="panel">
         <div class="loader">
@@ -267,6 +399,7 @@
             <p id="errorMsg">Unknown error.</p>
             <p style="margin-top:12px;font-size:13px;">Make sure your JSON file is publicly accessible on GitHub and the URL param is correct.<br>
             Example: <code>?quiz=quiz1</code> → fetches <code>.../quizzes/quiz1.json</code></p>
+            <button style="margin-top:16px;" onclick="showDashboard()">🔗 Open Link Checker</button>
         </div>
     </div>
 
@@ -300,6 +433,7 @@
                 <div class="stat-card"><div class="stat-value" id="finalTotal">0</div><div class="stat-label">Total</div></div>
             </div>
             <button onclick="reattemptQuiz()">🔁 Reattempt Quiz</button>
+            <button class="secondary" onclick="showDashboard()">🔗 Link Checker</button>
         </div>
     </div>
 
@@ -342,6 +476,126 @@
     let quizTitle     = 'Quiz';
 
     /* ============================================================
+       LINK CHECKER DASHBOARD
+    ============================================================ */
+    function showDashboard() {
+        document.getElementById('baseUrlDisplay').textContent = BASE_URL;
+        showPanel('dashboardPanel');
+    }
+
+    function hideDashboard() {
+        hidePanel('dashboardPanel');
+    }
+
+    async function runLinkCheck() {
+        const raw = document.getElementById('quizNamesInput').value;
+        // Split by comma or newline, trim, filter empty
+        const names = raw.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+        if (names.length === 0) {
+            alert('Please enter at least one quiz name.');
+            return;
+        }
+
+        const listEl    = document.getElementById('linkList');
+        const summaryEl = document.getElementById('checkerSummary');
+        const resultsEl = document.getElementById('linkResults');
+
+        listEl.innerHTML = '';
+        summaryEl.innerHTML = 'Checking...';
+        resultsEl.classList.remove('hidden');
+
+        // Render skeleton rows
+        names.forEach(name => {
+            listEl.innerHTML += `
+                <div class="link-item checking" id="link-item-${CSS.escape(name)}">
+                    <div class="link-item-left">
+                        <span class="link-status-icon">⏳</span>
+                        <div>
+                            <div class="link-name">${escapeHtml(name)}</div>
+                            <div class="link-url">${BASE_URL}/${escapeHtml(name)}.json</div>
+                        </div>
+                    </div>
+                </div>`;
+        });
+
+        // Check each in parallel
+        const pageBase = location.origin + location.pathname;
+        const results = await Promise.all(names.map(async name => {
+            const rawUrl  = `${BASE_URL}/${name}.json`;
+            const quizUrl = `${pageBase}?quiz=${encodeURIComponent(name)}`;
+            let ok = false;
+            try {
+                const res = await fetch(rawUrl, { method: 'HEAD' });
+                ok = res.ok;
+                // Some servers don't allow HEAD — try GET if HEAD fails
+                if (!ok) {
+                    const res2 = await fetch(rawUrl);
+                    ok = res2.ok;
+                }
+            } catch { ok = false; }
+            return { name, rawUrl, quizUrl, ok };
+        }));
+
+        // Render results
+        let okCount = 0, failCount = 0;
+        results.forEach(({ name, rawUrl, quizUrl, ok }) => {
+            const el = document.getElementById(`link-item-${CSS.escape(name)}`);
+            if (!el) return;
+            if (ok) okCount++; else failCount++;
+            el.className = `link-item ${ok ? 'ok' : 'fail'}`;
+            el.innerHTML = `
+                <div class="link-item-left">
+                    <span class="link-status-icon">${ok ? '✅' : '❌'}</span>
+                    <div>
+                        <div class="link-name">${escapeHtml(name)}</div>
+                        <div class="link-url">${escapeHtml(rawUrl)}</div>
+                    </div>
+                </div>
+                <div class="link-item-actions">
+                    ${ok ? `
+                        <button class="copy-btn" onclick="copyText('${quizUrl}', this)">📋 Copy Link</button>
+                        <button class="open-btn" onclick="window.open('${quizUrl}','_blank')">▶ Open</button>
+                    ` : `<span style="font-size:13px;color:#721c24;">Not found</span>`}
+                </div>`;
+        });
+
+        summaryEl.innerHTML = `
+            <span class="sum-total">Total: ${results.length}</span> &nbsp;|&nbsp;
+            <span class="sum-ok">✅ Working: ${okCount}</span> &nbsp;|&nbsp;
+            <span class="sum-fail">❌ Failed: ${failCount}</span>`;
+
+        // Store working links for copy-all
+        window._workingLinks = results.filter(r => r.ok).map(r => r.quizUrl);
+    }
+
+    function copyText(text, btn) {
+        navigator.clipboard.writeText(text).then(() => {
+            const orig = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            setTimeout(() => btn.textContent = orig, 1800);
+        });
+    }
+
+    function copyAllWorkingLinks() {
+        const links = window._workingLinks || [];
+        if (links.length === 0) { alert('No working links to copy.'); return; }
+        navigator.clipboard.writeText(links.join('\n')).then(() => {
+            const btn = document.querySelector('.copy-all-btn');
+            const orig = btn.textContent;
+            btn.textContent = `✓ Copied ${links.length} link(s)!`;
+            setTimeout(() => btn.textContent = orig, 2000);
+        });
+    }
+
+    function clearResults() {
+        document.getElementById('linkList').innerHTML = '';
+        document.getElementById('checkerSummary').innerHTML = '';
+        document.getElementById('linkResults').classList.add('hidden');
+        document.getElementById('quizNamesInput').value = '';
+        window._workingLinks = [];
+    }
+
+    /* ============================================================
        INIT — runs on page load
     ============================================================ */
     window.addEventListener('DOMContentLoaded', () => {
@@ -349,11 +603,9 @@
         const quizName = params.get('quiz');
 
         if (!quizName) {
-            showError(
-                'No quiz specified.',
-                'Add <code>?quiz=your_quiz_name</code> to the URL.<br>Example: <code>' +
-                location.origin + location.pathname + '?quiz=quiz1</code>'
-            );
+            document.getElementById('baseUrlDisplay').textContent = BASE_URL;
+            hidePanel('loadingPanel');
+            showPanel('dashboardPanel');
             return;
         }
 
