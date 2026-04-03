@@ -7,7 +7,6 @@
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%230066cc'%3E📝%3C/text%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== BASE RESET ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -27,7 +26,6 @@
             gap: 20px;
         }
 
-        /* ===== PANEL CARD ===== */
         .panel {
             background: white;
             border-radius: 12px;
@@ -36,7 +34,6 @@
             border: 1px solid #cce6ff;
         }
 
-        /* ===== HEADINGS ===== */
         h1, h2 {
             margin-bottom: 16px;
             color: #0066cc;
@@ -59,7 +56,6 @@
             color: #0066cc;
         }
 
-        /* ===== BUTTONS ===== */
         button {
             background: #0099cc;
             color: white;
@@ -82,7 +78,6 @@
         button.danger { background: #dc3545; }
         button.danger:hover { background: #c82333; }
 
-        /* ===== OPTION BUTTONS ===== */
         .option-btn {
             width: 100%;
             text-align: left;
@@ -104,10 +99,8 @@
         .option-btn.correct  { background: #d4edda; border-color: #28a745; color: #155724; }
         .option-btn.incorrect { background: #f8d7da; border-color: #dc3545; color: #721c24; }
         .option-btn.selected  { background: #e6f2ff; border-color: #0099cc; }
-        .option-btn.revealed  { background: #fff3cd; border-color: #ffc107; } /* previously answered, revisiting */
         .option-btn:disabled  { cursor: not-allowed; opacity: 0.8; }
 
-        /* ===== STATS BAR ===== */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -122,11 +115,9 @@
         .stat-value { font-size: 24px; font-weight: 700; color: #0066cc; }
         .stat-label { font-size: 12px; color: #6c757d; text-transform: uppercase; }
 
-        /* ===== PROGRESS BAR ===== */
         .progress-bar { width: 100%; height: 12px; background: #e9ecef; border-radius: 6px; overflow: hidden; margin-bottom: 20px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); }
         .progress-fill { height: 100%; background: linear-gradient(90deg, #0099cc, #00ccff); transition: width 0.3s ease; }
 
-        /* ===== QUESTION ===== */
         .question-text {
             font-size: 18px;
             font-weight: 600;
@@ -138,7 +129,6 @@
             border-radius: 0 8px 8px 0;
         }
 
-        /* ===== FEEDBACK & SOLUTION ===== */
         .feedback {
             padding: 16px;
             border-radius: 8px;
@@ -163,7 +153,6 @@
         }
         .solution-label { font-weight: 600; color: #0066cc; margin-bottom: 8px; font-family: 'Comic Neue', cursive; }
 
-        /* ===== EXAM HEADER ===== */
         .exam-header {
             display: flex;
             justify-content: space-between;
@@ -175,7 +164,6 @@
         .timer { background: #f0f8ff; padding: 10px 15px; border-radius: 8px; font-weight: bold; color: #0066cc; border: 1px solid #cce6ff; }
         .question-counter { font-weight: bold; color: #0066cc; }
 
-        /* ===== NAVIGATION (fixed bottom-right) ===== */
         .navigation {
             position: fixed;
             bottom: 20px;
@@ -201,12 +189,10 @@
         .navigation button:hover { background: #0077b3; transform: translateY(-2px); }
         .navigation button:disabled { background: #aaa; cursor: not-allowed; transform: none; }
 
-        /* ===== RESULTS ===== */
         .final-stats { text-align: center; padding: 40px 20px; }
         .final-score { font-size: 64px; font-weight: 700; color: #0066cc; margin: 20px 0; }
         .score-label { font-size: 18px; color: #6c757d; margin-bottom: 30px; }
 
-        /* ===== LOADING / ERROR ===== */
         .loader {
             text-align: center;
             padding: 60px 20px;
@@ -234,128 +220,184 @@
         .error-box h3 { margin-bottom: 10px; color: #721c24; }
         .error-box code { background: #fff; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
 
-        /* ===== LINK CHECKER DASHBOARD ===== */
-        .dashboard-panel h1 {
-            font-size: 26px;
+        .hidden { display: none !important; }
+
+        /* ===== LINK CHECKER STYLES ===== */
+        #homepagePanel h1 {
+            font-size: 28px;
             text-align: center;
             background: linear-gradient(to right, #0066cc, #0099cc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             padding: 10px 0;
             border-bottom: 2px solid #cce6ff;
+            margin-bottom: 24px;
+        }
+
+        .lc-search-row {
+            display: flex;
+            gap: 10px;
             margin-bottom: 16px;
+            align-items: center;
+            flex-wrap: wrap;
         }
-        .dash-search-row {
-            margin-bottom: 14px;
-        }
-        .dash-search-row input {
-            width: 100%;
-            padding: 12px 16px;
+        .lc-search-row input {
+            flex: 1;
+            min-width: 160px;
+            padding: 10px 14px;
             border: 2px solid #cce6ff;
             border-radius: 8px;
             font-family: 'Comic Neue', cursive;
             font-size: 15px;
             outline: none;
-            transition: border 0.2s;
+            color: #333;
         }
-        .dash-search-row input:focus { border-color: #0099cc; }
-        .checker-hint {
+        .lc-search-row input:focus { border-color: #0099cc; }
+        .lc-scan-btn {
+            background: #0099cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Comic Neue', cursive;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 0;
+            box-shadow: none;
+        }
+        .lc-scan-btn:hover { background: #0077b3; transform: translateY(-1px); }
+        .lc-scan-btn:disabled { background: #aaa; cursor: not-allowed; transform: none; }
+
+        .lc-status-bar {
             font-size: 13px;
             color: #6c757d;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
+            min-height: 20px;
         }
-        .checker-hint code {
+
+        .lc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .lc-card {
             background: #f0f8ff;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
-            border: 1px solid #cce6ff;
-        }
-        .link-item {
+            border: 1.5px solid #cce6ff;
+            border-radius: 10px;
+            padding: 12px 14px;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border: 1px solid;
-            gap: 12px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 6px;
+            transition: border-color 0.2s;
         }
-        .link-item.checking { background: #f8f9ff; border-color: #cce6ff; }
-        .link-item.ok       { background: #d4edda; border-color: #28a745; }
-        .link-item.fail     { background: #f8d7da; border-color: #dc3545; }
-        .link-item.dash-hidden { display: none !important; }
-        .link-item-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-            min-width: 0;
-        }
-        .link-status-icon { font-size: 20px; flex-shrink: 0; }
-        .link-name {
+        .lc-card.ok    { border-color: #28a745; background: #eaffed; }
+        .lc-card.fail  { border-color: #dc3545; background: #fff0f0; }
+        .lc-card.checking { border-color: #ffc107; background: #fffbe6; }
+
+        .lc-card-name {
             font-weight: 700;
+            font-size: 14px;
             color: #0066cc;
-            font-size: 15px;
-        }
-        .link-name mark {
-            background: #fff3cd;
-            color: #0066cc;
-            border-radius: 3px;
-            padding: 0 2px;
-        }
-        .link-url {
-            font-size: 12px;
-            color: #6c757d;
             word-break: break-all;
         }
-        .link-item-actions {
+        .lc-card-status {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .lc-card.ok .lc-card-status    { color: #155724; }
+        .lc-card.fail .lc-card-status  { color: #721c24; }
+        .lc-card.checking .lc-card-status { color: #856404; }
+
+        .lc-card-url {
+            font-size: 11px;
+            color: #666;
+            word-break: break-all;
+            font-family: monospace;
+        }
+
+        .lc-card-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .lc-btn-small {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: 'Comic Neue', cursive;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            margin: 0;
+            box-shadow: none;
+            transition: all 0.15s;
+        }
+        .lc-btn-copy {
+            background: #e6f2ff;
+            color: #0066cc;
+            border: 1px solid #99d6ff;
+        }
+        .lc-btn-copy:hover { background: #cce6ff; transform: none; box-shadow: none; }
+        .lc-btn-open {
+            background: #0099cc;
+            color: white;
+        }
+        .lc-btn-open:hover { background: #0077b3; transform: none; box-shadow: none; }
+        .lc-btn-launch {
+            background: #28a745;
+            color: white;
+        }
+        .lc-btn-launch:hover { background: #218838; transform: none; box-shadow: none; }
+
+        .lc-empty {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+            font-size: 15px;
+        }
+
+        .lc-info-note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #f8f9ff;
+            border-radius: 6px;
+            border: 1px solid #cce6ff;
+        }
+
+        /* Tab nav */
+        .tab-bar {
             display: flex;
             gap: 8px;
-            flex-shrink: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #cce6ff;
+            padding-bottom: 0;
         }
-        .link-item-actions button {
-            padding: 7px 14px;
-            font-size: 13px;
-            margin: 0;
+        .tab-btn {
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #6c757d;
+            font-family: 'Comic Neue', cursive;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 8px 18px;
+            cursor: pointer;
+            border-radius: 0;
+            margin: 0 0 -2px 0;
+            box-shadow: none;
+            transition: color 0.2s, border-color 0.2s;
         }
-        .copy-btn { background: #0099cc; }
-        .open-btn { background: #28a745; }
-        .open-btn:hover { background: #218838 !important; }
-        .checker-summary {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-            padding: 12px 16px;
-            background: #f0f8ff;
-            border-radius: 8px;
-            border: 1px solid #cce6ff;
-            font-size: 14px;
-        }
-        .sum-ok   { color: #28a745; font-weight: 700; }
-        .sum-fail { color: #dc3545; font-weight: 700; }
-        .sum-total{ color: #0066cc; font-weight: 700; }
-        .copy-all-btn { background: #0066cc; margin-bottom: 0; }
-        .copy-all-btn:hover { background: #0055aa !important; }
-        .loader-inline {
-            display: flex; align-items: center; gap: 12px;
-            padding: 20px; color: #0066cc; font-size: 15px;
-        }
-        .spinner-sm {
-            width: 24px; height: 24px; flex-shrink: 0;
-            border: 3px solid #cce6ff; border-top-color: #0099cc;
-            border-radius: 50%; animation: spin 0.8s linear infinite;
-        }
-        .no-results-msg {
-            text-align: center; padding: 20px; color: #6c757d; font-size: 15px;
-        }
+        .tab-btn:hover { color: #0066cc; background: none; transform: none; box-shadow: none; }
+        .tab-btn.active { color: #0066cc; border-bottom-color: #0099cc; background: none; transform: none; box-shadow: none; }
 
-        /* ===== UTILITY ===== */
-        .hidden { display: none !important; }
-
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
             body { padding: 12px; }
             .panel { padding: 16px; }
@@ -364,41 +406,12 @@
             .final-score { font-size: 48px; }
             .navigation { bottom: 12px; right: 12px; gap: 8px; }
             .navigation button { padding: 10px 18px; font-size: 14px; }
+            .lc-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-
-    <!-- ===== LINK CHECKER DASHBOARD ===== -->
-    <div id="dashboardPanel" class="panel dashboard-panel hidden">
-        <h1>🔗 Quiz Link Dashboard</h1>
-        <p class="checker-hint">
-            Base: <code id="baseUrlDisplay"></code> &nbsp;·&nbsp;
-            All available quizzes are listed below. Use the search box to filter.
-        </p>
-
-        <!-- Search bar always visible -->
-        <div class="dash-search-row">
-            <input type="text" id="dashSearchInput" placeholder="🔍  Search quiz name (partial match works — e.g. 'quiz' finds 'historyquiz3')" oninput="filterDashboard()" />
-        </div>
-
-        <!-- Summary bar -->
-        <div class="checker-summary hidden" id="checkerSummary"></div>
-
-        <!-- Action buttons -->
-        <div id="dashActions" class="hidden" style="margin-bottom:14px; display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="copy-all-btn" onclick="copyAllWorkingLinks()">📋 Copy All Working Links</button>
-        </div>
-
-        <!-- All links list (auto-loaded) -->
-        <div id="linkList">
-            <div class="loader-inline">
-                <div class="spinner-sm"></div>
-                <span id="dashLoadMsg">Loading available quizzes from GitHub…</span>
-            </div>
-        </div>
-    </div>
 
     <!-- ===== LOADING PANEL ===== -->
     <div id="loadingPanel" class="panel">
@@ -415,7 +428,47 @@
             <p id="errorMsg">Unknown error.</p>
             <p style="margin-top:12px;font-size:13px;">Make sure your JSON file is publicly accessible on GitHub and the URL param is correct.<br>
             Example: <code>?quiz=quiz1</code> → fetches <code>.../quizzes/quiz1.json</code></p>
-            <button style="margin-top:16px;" onclick="showDashboard()">🔗 Open Link Checker</button>
+        </div>
+    </div>
+
+    <!-- ===== HOMEPAGE PANEL (shown when no ?quiz param) ===== -->
+    <div id="homepagePanel" class="panel hidden">
+        <h1>📝 Quiz Dashboard</h1>
+
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('checker')">🔗 Link Checker</button>
+            <button class="tab-btn" onclick="switchTab('manual')">🔢 Open by Name</button>
+        </div>
+
+        <!-- Tab: Link Checker -->
+        <div id="tab-checker">
+            <h2>Available Quizzes on GitHub</h2>
+            <p style="font-size:14px;color:#555;margin-bottom:14px;">Scan your GitHub repo to find all working quiz links. Search filters results — partial matches are shown too.</p>
+
+            <div class="lc-search-row">
+                <input type="text" id="lcSearch" placeholder="Search quizzes (e.g. history, quiz, science)..." oninput="filterCards()" />
+                <button class="lc-scan-btn" id="lcScanBtn" onclick="startScan()">🔍 Scan Repo</button>
+            </div>
+
+            <div class="lc-status-bar" id="lcStatus">Press "Scan Repo" to discover available quizzes.</div>
+            <div class="lc-grid" id="lcGrid">
+                <div class="lc-empty">No results yet. Click Scan Repo to start.</div>
+            </div>
+            <div class="lc-info-note">
+                ℹ️ The scanner tries known quiz filenames from your repo. Links marked ✅ are confirmed working. Scan may take a few seconds.
+                Search shows all names where any part matches — so "quiz" matches "historyquiz3".
+            </div>
+        </div>
+
+        <!-- Tab: Manual Open -->
+        <div id="tab-manual" class="hidden">
+            <h2>Open Quiz by Name</h2>
+            <p style="font-size:14px;color:#555;margin-bottom:14px;">If you know the quiz filename (without .json), enter it below to launch directly.</p>
+            <div class="lc-search-row">
+                <input type="text" id="manualName" placeholder="e.g. historyquiz3, science1..." />
+                <button class="lc-scan-btn" onclick="openManualQuiz()">▶ Open Quiz</button>
+            </div>
+            <div id="manualError" style="color:#dc3545;font-size:13px;margin-top:8px;"></div>
         </div>
     </div>
 
@@ -452,7 +505,7 @@
         </div>
     </div>
 
-</div><!-- .container -->
+</div>
 
 <!-- Fixed Prev / Next Navigation -->
 <div class="navigation" id="navButtons" style="display:none;">
@@ -463,235 +516,34 @@
 <script>
     /* ============================================================
        CONFIGURATION
-       ============================================================
-       Set BASE_URL to the raw GitHub folder that contains your JSON files.
-       Each quiz JSON file must follow the schema:
-       {
-         "title": "My Quiz",
-         "questions": [
-           {
-             "question": "Question text",
-             "options": ["Option A", "Option B", "Option C", "Option D"],
-             "answer": "Option A",          // must match one of the options exactly
-             "solution": "Explanation..."   // optional
-           }
-         ]
-       }
     ============================================================ */
-    const BASE_URL = 'https://raw.githubusercontent.com/keni7689/quiz-data/main/quizzes';
+    const BASE_URL  = 'https://raw.githubusercontent.com/keni7689/quiz-data/main/quizzes';
+    const REPO_API  = 'https://api.github.com/repos/keni7689/quiz-data/contents/quizzes';
 
     /* ============================================================
        STATE
     ============================================================ */
-    let allQuestions  = [];   // Array of question objects from JSON
-    let userAnswers   = [];   // userAnswers[i] = { selectedOption, isCorrect } | null
-    let currentIndex  = 0;    // Which question the user is viewing (0-based)
+    let allQuestions  = [];
+    let userAnswers   = [];
+    let currentIndex  = 0;
     let timerInterval = null;
     let timeElapsed   = 0;
     let quizTitle     = 'Quiz';
 
-    /* ============================================================
-       LINK CHECKER DASHBOARD
-       — Auto-loads all files from GitHub repo on open
-       — Partial/fuzzy search filters live, highlights matches
-    ============================================================ */
-
-    // Derive GitHub API URL from BASE_URL
-    // BASE_URL = https://raw.githubusercontent.com/USER/REPO/BRANCH/PATH
-    const GITHUB_API_URL = (() => {
-        const m = BASE_URL.match(/https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.*)/);
-        if (!m) return null;
-        const [, user, repo, branch, path] = m;
-        return `https://api.github.com/repos/${user}/${repo}/contents/${path}?ref=${branch}`;
-    })();
-
-    let _allLinks = [];       // { name, rawUrl, quizUrl, ok }
-    let _dashLoaded = false;
-
-    function showDashboard() {
-        document.getElementById('baseUrlDisplay').textContent = BASE_URL;
-        showPanel('dashboardPanel');
-        if (!_dashLoaded) loadDashboardLinks();
-    }
-
-    function hideDashboard() {
-        hidePanel('dashboardPanel');
-    }
-
-    async function loadDashboardLinks() {
-        _dashLoaded = true;
-        const listEl = document.getElementById('linkList');
-        listEl.innerHTML = `<div class="loader-inline"><div class="spinner-sm"></div><span id="dashLoadMsg">Fetching quiz list from GitHub…</span></div>`;
-
-        const pageBase = location.origin + location.pathname;
-        let names = [];
-
-        try {
-            if (!GITHUB_API_URL) throw new Error('Cannot parse GitHub API URL from BASE_URL.');
-            const res = await fetch(GITHUB_API_URL);
-            if (!res.ok) throw new Error(`GitHub API returned ${res.status}`);
-            const files = await res.json();
-            names = files
-                .filter(f => f.type === 'file' && f.name.endsWith('.json'))
-                .map(f => f.name.replace(/\.json$/, ''));
-        } catch (e) {
-            listEl.innerHTML = `<div class="no-results-msg">⚠️ Could not auto-load list from GitHub.<br><small>${e.message}</small></div>`;
-            return;
-        }
-
-        if (names.length === 0) {
-            listEl.innerHTML = `<div class="no-results-msg">No .json quiz files found in the repo folder.</div>`;
-            return;
-        }
-
-        // Show skeleton while checking
-        listEl.innerHTML = names.map(name => `
-            <div class="link-item checking" id="dli-${CSS.escape(name)}" data-name="${escapeHtml(name)}">
-                <div class="link-item-left">
-                    <span class="link-status-icon">⏳</span>
-                    <div>
-                        <div class="link-name">${escapeHtml(name)}</div>
-                        <div class="link-url">${BASE_URL}/${escapeHtml(name)}.json</div>
-                    </div>
-                </div>
-            </div>`).join('');
-
-        // Check all in parallel
-        const results = await Promise.all(names.map(async name => {
-            const rawUrl  = `${BASE_URL}/${name}.json`;
-            const quizUrl = `${pageBase}?quiz=${encodeURIComponent(name)}`;
-            let ok = false;
-            try {
-                const r = await fetch(rawUrl, { method: 'HEAD' });
-                ok = r.ok;
-                if (!ok) { const r2 = await fetch(rawUrl); ok = r2.ok; }
-            } catch { ok = false; }
-            return { name, rawUrl, quizUrl, ok };
-        }));
-
-        _allLinks = results;
-
-        let okCount = 0, failCount = 0;
-        results.forEach(({ name, rawUrl, quizUrl, ok }) => {
-            const el = document.getElementById(`dli-${CSS.escape(name)}`);
-            if (!el) return;
-            if (ok) okCount++; else failCount++;
-            el.className = `link-item ${ok ? 'ok' : 'fail'}`;
-            el.dataset.name = name;
-            el.innerHTML = buildLinkItemInner(name, name, rawUrl, quizUrl, ok);
-        });
-
-        // Summary
-        const sumEl = document.getElementById('checkerSummary');
-        sumEl.innerHTML = `
-            <span class="sum-total">Total: ${results.length}</span> &nbsp;|&nbsp;
-            <span class="sum-ok">✅ Working: ${okCount}</span> &nbsp;|&nbsp;
-            <span class="sum-fail">❌ Not found: ${failCount}</span>`;
-        sumEl.classList.remove('hidden');
-        document.getElementById('dashActions').classList.remove('hidden');
-
-        window._workingLinks = results.filter(r => r.ok).map(r => r.quizUrl);
-    }
-
-    /** Builds the inner HTML for a link item, highlighting all matching tokens in the name */
-    function buildLinkItemInner(name, tokensOrQuery, rawUrl, quizUrl, ok) {
-        const tokens = Array.isArray(tokensOrQuery) ? tokensOrQuery : (tokensOrQuery ? [tokensOrQuery] : []);
-        let displayName = escapeHtml(name);
-        tokens.forEach(t => {
-            if (!t) return;
-            const escaped = t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            displayName = displayName.replace(new RegExp(escaped, 'gi'), m => `<mark>${m}</mark>`);
-        });
-        return `
-            <div class="link-item-left">
-                <span class="link-status-icon">${ok ? '✅' : '❌'}</span>
-                <div>
-                    <div class="link-name">${displayName}</div>
-                    <div class="link-url">${escapeHtml(rawUrl)}</div>
-                </div>
-            </div>
-            <div class="link-item-actions">
-                ${ok
-                    ? `<button class="copy-btn" onclick="copyText('${quizUrl}', this)">📋 Copy</button>
-                       <button class="open-btn" onclick="window.open('${quizUrl}','_blank')">▶ Open</button>`
-                    : `<span style="font-size:13px;color:#721c24;">Not found</span>`}
-            </div>`;
-    }
-
-    /** Highlights all occurrences of query inside text (case-insensitive) */
-
-    /**
-     * Live filter — matches ANY token from the search against the full quiz name.
-     * e.g. "quiz" matches "historyquiz3", "mathquiz1", "quiz2" — partial anywhere in name.
-     * Multiple words like "history quiz" = show if name contains "history" OR "quiz".
-     */
-    function filterDashboard() {
-        const raw    = document.getElementById('dashSearchInput').value.trim().toLowerCase();
-        const tokens = raw.split(/\s+/).filter(Boolean);
-        let visibleCount = 0;
-
-        _allLinks.forEach(({ name, rawUrl, quizUrl, ok }) => {
-            const el = document.getElementById(`dli-${CSS.escape(name)}`);
-            if (!el) return;
-            const nameLower = name.toLowerCase();
-            const matches   = tokens.length === 0 || tokens.some(t => nameLower.includes(t));
-            if (matches) {
-                el.classList.remove('dash-hidden');
-                el.innerHTML = buildLinkItemInner(name, tokens, rawUrl, quizUrl, ok);
-                visibleCount++;
-            } else {
-                el.classList.add('dash-hidden');
-            }
-        });
-
-        let noRes = document.getElementById('dashNoResults');
-        if (visibleCount === 0 && tokens.length > 0) {
-            if (!noRes) {
-                noRes = document.createElement('div');
-                noRes.id = 'dashNoResults';
-                noRes.className = 'no-results-msg';
-                document.getElementById('linkList').appendChild(noRes);
-            }
-            noRes.textContent = `No quizzes found matching "${raw}"`;
-        } else if (noRes) {
-            noRes.remove();
-        }
-
-        window._workingLinks = _allLinks
-            .filter(r => r.ok && (tokens.length === 0 || tokens.some(t => r.name.toLowerCase().includes(t))))
-            .map(r => r.quizUrl);
-    }
-
-    function copyText(text, btn) {
-        navigator.clipboard.writeText(text).then(() => {
-            const orig = btn.textContent;
-            btn.textContent = '✓ Copied!';
-            setTimeout(() => btn.textContent = orig, 1800);
-        });
-    }
-
-    function copyAllWorkingLinks() {
-        const links = window._workingLinks || [];
-        if (links.length === 0) { alert('No working links to copy.'); return; }
-        navigator.clipboard.writeText(links.join('\n')).then(() => {
-            const btn = document.querySelector('.copy-all-btn');
-            const orig = btn.textContent;
-            btn.textContent = `✓ Copied ${links.length} link(s)!`;
-            setTimeout(() => btn.textContent = orig, 2000);
-        });
-    }
+    // Link checker state
+    let allRepoFiles  = [];   // { name, quizKey, url, shareUrl } — all discovered
+    let scanDone      = false;
 
     /* ============================================================
-       INIT — runs on page load
+       INIT
     ============================================================ */
     window.addEventListener('DOMContentLoaded', () => {
         const params   = new URLSearchParams(window.location.search);
         const quizName = params.get('quiz');
 
         if (!quizName) {
-            document.getElementById('baseUrlDisplay').textContent = BASE_URL;
             hidePanel('loadingPanel');
-            showPanel('dashboardPanel');
+            showPanel('homepagePanel');
             return;
         }
 
@@ -700,7 +552,180 @@
     });
 
     /* ============================================================
-       FETCH QUIZ JSON FROM GITHUB
+       TAB SWITCHING
+    ============================================================ */
+    function switchTab(tab) {
+        document.getElementById('tab-checker').classList.toggle('hidden', tab !== 'checker');
+        document.getElementById('tab-manual').classList.toggle('hidden', tab !== 'manual');
+        document.querySelectorAll('.tab-btn').forEach((b, i) => {
+            b.classList.toggle('active', (i === 0 && tab === 'checker') || (i === 1 && tab === 'manual'));
+        });
+    }
+
+    /* ============================================================
+       LINK CHECKER — SCAN REPO VIA GITHUB API
+    ============================================================ */
+    async function startScan() {
+        const btn = document.getElementById('lcScanBtn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Scanning...';
+        document.getElementById('lcStatus').textContent = 'Fetching file list from GitHub...';
+        document.getElementById('lcGrid').innerHTML = '<div class="lc-empty">Scanning...</div>';
+        allRepoFiles = [];
+        scanDone     = false;
+
+        try {
+            const res = await fetch(REPO_API);
+            if (!res.ok) throw new Error(`GitHub API returned ${res.status}`);
+            const files = await res.json();
+
+            // Filter JSON files
+            const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+            if (jsonFiles.length === 0) {
+                document.getElementById('lcStatus').textContent = 'No JSON files found in repo.';
+                document.getElementById('lcGrid').innerHTML = '<div class="lc-empty">No quiz files found.</div>';
+                btn.disabled = false;
+                btn.textContent = '🔍 Scan Repo';
+                return;
+            }
+
+            document.getElementById('lcStatus').textContent = `Found ${jsonFiles.length} file(s). Checking each...`;
+
+            // Build records
+            allRepoFiles = jsonFiles.map(f => {
+                const quizKey = f.name.replace(/\.json$/, '');
+                const shareUrl = buildShareUrl(quizKey);
+                return { name: f.name, quizKey, url: shareUrl, status: 'checking' };
+            });
+
+            renderCards(allRepoFiles);
+
+            // Check each file in parallel (HEAD request to raw URL)
+            const checks = allRepoFiles.map(async (rec, idx) => {
+                try {
+                    const rawUrl = `${BASE_URL}/${rec.name}`;
+                    const r = await fetch(rawUrl, { method: 'HEAD' });
+                    allRepoFiles[idx].status = r.ok ? 'ok' : 'fail';
+                } catch(e) {
+                    allRepoFiles[idx].status = 'fail';
+                }
+                renderCards(getFilteredFiles());
+            });
+
+            await Promise.all(checks);
+            scanDone = true;
+
+            const ok = allRepoFiles.filter(r => r.status === 'ok').length;
+            document.getElementById('lcStatus').textContent =
+                `✅ Scan complete — ${ok} working / ${allRepoFiles.length} total`;
+
+        } catch(err) {
+            document.getElementById('lcStatus').textContent = `⚠️ Error: ${err.message}`;
+            document.getElementById('lcGrid').innerHTML = `<div class="lc-empty">Could not reach GitHub API. Check your network.</div>`;
+        }
+
+        btn.disabled = false;
+        btn.textContent = '🔍 Scan Repo';
+    }
+
+    /* Build the shareable quiz URL based on current page location */
+    function buildShareUrl(quizKey) {
+        return `${location.origin}${location.pathname}?quiz=${encodeURIComponent(quizKey)}`;
+    }
+
+    /* ============================================================
+       SEARCH / FILTER
+       Matches if ANY part of the query appears in the quiz key,
+       or if any part of the quiz key contains the query fragment.
+    ============================================================ */
+    function filterCards() {
+        if (allRepoFiles.length === 0) return;
+        renderCards(getFilteredFiles());
+    }
+
+    function getFilteredFiles() {
+        const q = document.getElementById('lcSearch').value.trim().toLowerCase();
+        if (!q) return allRepoFiles;
+        return allRepoFiles.filter(r => {
+            const key = r.quizKey.toLowerCase();
+            // Partial match in either direction: query in name OR name contains query fragment
+            return key.includes(q) || q.includes(key) || fuzzyMatch(key, q);
+        });
+    }
+
+    // Fuzzy: check if every char of query appears in order in key
+    function fuzzyMatch(key, query) {
+        let ki = 0;
+        for (let qi = 0; qi < query.length; qi++) {
+            while (ki < key.length && key[ki] !== query[qi]) ki++;
+            if (ki >= key.length) return false;
+            ki++;
+        }
+        return true;
+    }
+
+    /* ============================================================
+       RENDER CARDS
+    ============================================================ */
+    function renderCards(files) {
+        const grid = document.getElementById('lcGrid');
+        if (!files || files.length === 0) {
+            grid.innerHTML = '<div class="lc-empty">No matches found.</div>';
+            return;
+        }
+
+        grid.innerHTML = files.map(rec => {
+            const statusClass = rec.status === 'ok' ? 'ok' : rec.status === 'fail' ? 'fail' : 'checking';
+            const statusLabel = rec.status === 'ok'
+                ? '✅ Working'
+                : rec.status === 'fail'
+                    ? '❌ Not accessible'
+                    : '⏳ Checking...';
+
+            const copyBtn = rec.status === 'ok'
+                ? `<button class="lc-btn-small lc-btn-copy" onclick="copyLink('${escHtml(rec.url)}', this)">📋 Copy Link</button>`
+                : '';
+            const launchBtn = rec.status === 'ok'
+                ? `<button class="lc-btn-small lc-btn-launch" onclick="launchQuiz('${escHtml(rec.quizKey)}')">▶ Open</button>`
+                : '';
+
+            return `<div class="lc-card ${statusClass}">
+                <div class="lc-card-name">${escHtml(rec.quizKey)}</div>
+                <div class="lc-card-status">${statusLabel}</div>
+                <div class="lc-card-url">${escHtml(rec.url)}</div>
+                <div class="lc-card-actions">${copyBtn}${launchBtn}</div>
+            </div>`;
+        }).join('');
+    }
+
+    function copyLink(url, btn) {
+        navigator.clipboard.writeText(url).then(() => {
+            const orig = btn.textContent;
+            btn.textContent = '✔ Copied!';
+            btn.style.background = '#d4edda';
+            setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1800);
+        }).catch(() => {
+            prompt('Copy this link:', url);
+        });
+    }
+
+    function launchQuiz(key) {
+        window.location.href = `${location.pathname}?quiz=${encodeURIComponent(key)}`;
+    }
+
+    /* ============================================================
+       MANUAL OPEN
+    ============================================================ */
+    function openManualQuiz() {
+        const name = document.getElementById('manualName').value.trim();
+        const err  = document.getElementById('manualError');
+        if (!name) { err.textContent = 'Please enter a quiz name.'; return; }
+        err.textContent = '';
+        window.location.href = `${location.pathname}?quiz=${encodeURIComponent(name)}`;
+    }
+
+    /* ============================================================
+       FETCH QUIZ JSON
     ============================================================ */
     async function loadQuiz(url, quizName) {
         setLoading(`Loading "${quizName}"...`);
@@ -710,12 +735,10 @@
 
             const data = await res.json();
 
-            // Validate structure
             if (!Array.isArray(data.questions) || data.questions.length === 0) {
                 throw new Error('JSON is missing a "questions" array or it is empty.');
             }
 
-            // Sanitise questions — ensure required fields exist
             allQuestions = data.questions.map((q, i) => ({
                 question : q.question  || `[Question ${i + 1} missing text]`,
                 options  : Array.isArray(q.options) ? q.options : [],
@@ -732,14 +755,12 @@
     }
 
     /* ============================================================
-       QUIZ INITIALISATION
+       QUIZ INIT
     ============================================================ */
     function initQuiz() {
-        // Blank answer slate — null means unanswered
         userAnswers  = new Array(allQuestions.length).fill(null);
         currentIndex = 0;
 
-        // UI
         document.getElementById('quizTitle').textContent = quizTitle;
         document.title = quizTitle;
         document.getElementById('totalQuestions').textContent = allQuestions.length;
@@ -753,51 +774,41 @@
     }
 
     /* ============================================================
-       RENDER QUESTION (called on every navigation)
+       RENDER QUESTION
     ============================================================ */
     function renderQuestion() {
         const q       = allQuestions[currentIndex];
-        const saved   = userAnswers[currentIndex]; // null | { selectedOption, isCorrect }
+        const saved   = userAnswers[currentIndex];
         const content = document.getElementById('quizContent');
 
-        // Header counters
         document.getElementById('questionCounter').textContent = currentIndex + 1;
         updateStats();
         updateProgress();
 
-        // Build HTML
         let html = `<div class="question-text">${escapeHtml(q.question).replace(/\n/g, '<br>')}</div>`;
 
-        // Options
         q.options.forEach((opt, idx) => {
-            const letter   = String.fromCharCode(65 + idx); // A, B, C, D …
+            const letter   = String.fromCharCode(65 + idx);
             const isAnswer = opt === q.answer;
             let   cls      = 'option-btn';
             let   disabled = '';
 
             if (saved !== null) {
-                // Question was previously answered — show result, lock buttons
                 disabled = 'disabled';
                 if (isAnswer)            cls += ' correct';
                 if (opt === saved.selectedOption && !saved.isCorrect) cls += ' incorrect selected';
                 else if (opt === saved.selectedOption && saved.isCorrect) cls += ' selected';
             }
 
-            html += `
-                <button class="${cls}" ${disabled}
-                    onclick="selectAnswer(${idx})">
-                    ${letter}) ${escapeHtml(opt)}
-                </button>`;
+            html += `<button class="${cls}" ${disabled} onclick="selectAnswer(${idx})">${letter}) ${escapeHtml(opt)}</button>`;
         });
 
-        // If already answered, re-show feedback + solution
         if (saved !== null) {
             html += buildFeedbackHtml(saved, q);
         }
 
         content.innerHTML = html;
 
-        // Prev / Next button states
         document.getElementById('prevBtn').disabled = (currentIndex === 0);
         document.getElementById('nextBtn').textContent =
             currentIndex === allQuestions.length - 1 ? 'Finish ✓' : 'Next →';
@@ -807,17 +818,11 @@
        ANSWER SELECTION
     ============================================================ */
     function selectAnswer(optionIdx) {
-        // Ignore if already answered
         if (userAnswers[currentIndex] !== null) return;
-
         const q        = allQuestions[currentIndex];
         const selected = q.options[optionIdx];
         const isCorrect = selected === q.answer;
-
-        // Persist answer
         userAnswers[currentIndex] = { selectedOption: selected, isCorrect };
-
-        // Re-render to show result (locked state)
         renderQuestion();
     }
 
@@ -829,7 +834,6 @@
             currentIndex++;
             renderQuestion();
         } else {
-            // Last question — show results
             showResults();
         }
     }
@@ -841,7 +845,6 @@
         }
     }
 
-    /* Keyboard: A/B/C/D to answer, Left/Right to navigate */
     document.addEventListener('keydown', (e) => {
         if (!document.getElementById('quizPanel').classList.contains('hidden')) {
             const key = e.key.toUpperCase();
@@ -868,8 +871,7 @@
         const pct     = total > 0 ? Math.round((correct / total) * 100) : 0;
 
         document.getElementById('finalScore').textContent   = pct + '%';
-        document.getElementById('scoreLabel').textContent   =
-            `${correct} correct out of ${total} questions`;
+        document.getElementById('scoreLabel').textContent   = `${correct} correct out of ${total} questions`;
         document.getElementById('finalCorrect').textContent = correct;
         document.getElementById('finalWrong').textContent   = wrong;
         document.getElementById('finalSkipped').textContent = skipped;
@@ -880,16 +882,13 @@
         showPanel('resultsPanel');
     }
 
-    /* ============================================================
-       REATTEMPT — full reset, same questions
-    ============================================================ */
     function reattemptQuiz() {
         hidePanel('resultsPanel');
         initQuiz();
     }
 
     /* ============================================================
-       STATS UPDATE
+       STATS
     ============================================================ */
     function updateStats() {
         const answered = userAnswers.filter(a => a !== null).length;
@@ -897,7 +896,6 @@
         const wrong    = userAnswers.filter(a => a && !a.isCorrect).length;
         const skipped  = allQuestions.length - answered;
         const accuracy = answered > 0 ? Math.round((correct / answered) * 100) + '%' : '—';
-
         document.getElementById('statCorrect').textContent  = correct;
         document.getElementById('statWrong').textContent    = wrong;
         document.getElementById('statSkipped').textContent  = skipped;
@@ -905,8 +903,8 @@
     }
 
     function updateProgress() {
-        const answered  = userAnswers.filter(a => a !== null).length;
-        const pct       = allQuestions.length > 0 ? (answered / allQuestions.length) * 100 : 0;
+        const answered = userAnswers.filter(a => a !== null).length;
+        const pct      = allQuestions.length > 0 ? (answered / allQuestions.length) * 100 : 0;
         document.getElementById('progressFill').style.width = pct + '%';
     }
 
@@ -928,8 +926,6 @@
     /* ============================================================
        HELPERS
     ============================================================ */
-
-    /** Build feedback + solution HTML string for a saved answer */
     function buildFeedbackHtml(saved, q) {
         let html = `<div class="feedback ${saved.isCorrect ? 'correct' : 'incorrect'}">
             ${saved.isCorrect ? '✓ Correct!' : `✗ Incorrect — Correct answer: <strong>${escapeHtml(q.answer)}</strong>`}
@@ -957,7 +953,6 @@
     function showPanel(id) { document.getElementById(id).classList.remove('hidden'); }
     function hidePanel(id) { document.getElementById(id).classList.add('hidden'); }
 
-    /** Safely escape HTML entities to prevent XSS */
     function escapeHtml(str) {
         if (!str) return '';
         return str
@@ -967,6 +962,9 @@
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#039;');
     }
+
+    // Shorter alias for template literals (avoids double-escaping)
+    function escHtml(str) { return escapeHtml(str); }
 </script>
 </body>
 </html>
